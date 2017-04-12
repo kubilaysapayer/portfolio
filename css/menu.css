@@ -2,7 +2,6 @@
 .luxbar-default{
     width: 100%;
     position: relative;
-
 }
 
 .luxbar-static {
@@ -14,10 +13,10 @@
 
 .luxbar-fixed {
     width: 100%;
-    position:fixed;
+    position:absolute;
     top: 0;
     left: 0;
-    z-index: 3;
+    z-index: 1000;
 }
 
 
@@ -31,9 +30,9 @@
 }
 
 .luxbar-brand {
-    font-size: 1.2em;
+    font-size: 1.6em;
     padding: 0px;
-    font-weight: 500;
+    padding-left: 26px;
 }
 
 .luxbar-menu {
@@ -41,6 +40,7 @@
     overflow: hidden;
     transition: height .6s ease;
     width:100%;
+    background-color: white;
 }
 
 .luxbar-navigation {
@@ -49,8 +49,6 @@
     list-style: none;
     padding-left:0;
     margin: 0px;
-    padding-left: 24px;
-    padding-right: 24px;
 }
 
 .luxbar-menu a,
@@ -61,7 +59,7 @@
 }
 
 .luxbar-item a {
-    padding: 26px 0px 26px 26px;
+    padding: 26px;
     display: block;
 }
 
@@ -70,17 +68,12 @@
     /*luxbar-menu-light*/
 
 .luxbar-menu-light {
-    color: #ABB3B3;
-    max-width: 1230px;
-    margin-left: auto;
-    margin-right: auto;
-
+    color:rgba(0, 0, 0, 0.35);
+    font-weight: 500;
 }
 
-
-
 .luxbar-menu-light .luxbar-item:nth-child(2) {
-    border-top: 1px solid #D0D7D9;
+    border-top: 1px solid #2E69FF;
 }
 
 .luxbar-menu-light .active,
@@ -94,11 +87,218 @@
     background-color: #2E69FF;
 }
 
+    /*luxbar-menu-dark*/
+
+.luxbar-menu-dark {
+    background-color: #2E69FF;
+    color: #fff;
+}
+
+.luxbar-menu-dark .luxbar-item:nth-child(2) {
+    border-top: 1px solid #2E69FF;
+}
+
+.luxbar-menu-dark .active,
+.luxbar-menu-dark .luxbar-item:hover {
+    background-color: #2E69FF;
+}
+
+.luxbar-menu-dark .luxbar-hamburger span::after,
+.luxbar-menu-dark .luxbar-hamburger span::before,
+.luxbar-menu-dark .luxbar-hamburger span {
+    background-color: #fff;
+}
+
+    /*luxbar-menu-transparent*/
+
+.luxbar-menu-transparent {
+    color: #212121;
+    background-color: transparent;
+}
+
+.luxbar-menu-transparent .luxbar-item:nth-child(2) {
+    border-top: 1px solid #2f2f2f;
+}
+
+
+.luxbar-menu-transparent {
+    border-bottom: 1px solid #2f2f2f;
+}
+
+.luxbar-menu-transparent .active,
+.luxbar-menu-transparent .luxbar-item:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.luxbar-menu-transparent .luxbar-hamburger span::after,
+.luxbar-menu-transparent .luxbar-hamburger span::before,
+.luxbar-menu-transparent .luxbar-hamburger span {
+    background-color: #2f2f2f;
+}
+
+
+/* material luxbar-menu themes: material-red, material-indigo, material-cyan, material-green,
+                                material-amber, material-brown, material-bluegrey*/
+    /*luxbar-menu-material-red*/
+
+.luxbar-menu-material-red {
+    color: #fff;
+    background-color: #B71C1C;
+}
+
+.luxbar-menu-material-red .luxbar-item:nth-child(2) {
+    border-top: 1px solid #B71C1C;
+}
+
+.luxbar-menu-material-red .active,
+.luxbar-menu-material-red .luxbar-item:hover {
+    background-color: #C62828;
+}
+
+.luxbar-menu-material-red .luxbar-hamburger span::after,
+.luxbar-menu-material-red .luxbar-hamburger span::before,
+.luxbar-menu-material-red .luxbar-hamburger span {
+    background-color: #fff;
+}
+
+/*luxbar-menu-material-indigo*/
+
+.luxbar-menu-material-indigo {
+color: #fff;
+background-color: #1A237E;
+}
+
+.luxbar-menu-material-indigo .luxbar-item:nth-child(2) {
+border-top: 1px solid #1A237E;
+}
+
+.luxbar-menu-material-indigo .active,
+.luxbar-menu-material-indigo .luxbar-item:hover {
+background-color: #283593;
+}
+
+.luxbar-menu-material-indigo .luxbar-hamburger span::after,
+.luxbar-menu-material-indigo .luxbar-hamburger span::before,
+.luxbar-menu-material-indigo .luxbar-hamburger span {
+background-color: #fff;
+}
+
+/*luxbar-menu-material-cyan*/
+
+.luxbar-menu-material-cyan {
+color: #fff;
+background-color: #006064;
+}
+
+.luxbar-menu-material-cyan .luxbar-item:nth-child(2) {
+border-top: 1px solid #006064;
+}
+
+.luxbar-menu-material-cyan .active,
+.luxbar-menu-material-cyan .luxbar-item:hover {
+background-color: #00838F;
+}
+
+.luxbar-menu-material-cyan .luxbar-hamburger span::after,
+.luxbar-menu-material-cyan .luxbar-hamburger span::before,
+.luxbar-menu-material-cyan .luxbar-hamburger span {
+background-color: #fff;
+}
+
+/*luxbar-menu-material-green*/
+
+.luxbar-menu-material-green {
+color: #fff;
+background-color: #1B5E20;
+}
+
+.luxbar-menu-material-green .luxbar-item:nth-child(2) {
+border-top: 1px solid #1B5E20;
+}
+
+.luxbar-menu-material-green .active,
+.luxbar-menu-material-green .luxbar-item:hover {
+background-color: #2E7D32;
+}
+
+.luxbar-menu-material-green .luxbar-hamburger span::after,
+.luxbar-menu-material-green .luxbar-hamburger span::before,
+.luxbar-menu-material-green .luxbar-hamburger span {
+background-color: #fff;
+}
+
+/*luxbar-menu-material-amber*/
+
+.luxbar-menu-material-amber {
+color: #fff;
+background-color: #FF6F00;
+}
+
+.luxbar-menu-material-amber .luxbar-item:nth-child(2) {
+border-top: 1px solid #FF6F00;
+}
+
+.luxbar-menu-material-amber .active,
+.luxbar-menu-material-amber .luxbar-item:hover {
+background-color: #FF8F00;
+}
+
+.luxbar-menu-material-amber .luxbar-hamburger span::after,
+.luxbar-menu-material-amber .luxbar-hamburger span::before,
+.luxbar-menu-material-amber .luxbar-hamburger span {
+background-color: #fff;
+}
+
+/*luxbar-menu-material-brown*/
+
+.luxbar-menu-material-brown {
+color: #fff;
+background-color: #3E2723;
+}
+
+.luxbar-menu-material-brown .luxbar-item:nth-child(2) {
+border-top: 1px solid #3E2723;
+}
+
+.luxbar-menu-material-brown .active,
+.luxbar-menu-material-brown .luxbar-item:hover {
+background-color: #4E342E;
+}
+
+.luxbar-menu-material-brown .luxbar-hamburger span::after,
+.luxbar-menu-material-brown .luxbar-hamburger span::before,
+.luxbar-menu-material-brown .luxbar-hamburger span {
+background-color: #fff;
+}
+
+/*luxbar-menu-material-bluegrey*/
+
+.luxbar-menu-material-bluegrey {
+color: #fff;
+background-color: #263238;
+}
+
+.luxbar-menu-material-bluegrey .luxbar-item:nth-child(2) {
+border-top: 1px solid #263238;
+}
+
+.luxbar-menu-material-bluegrey .active,
+.luxbar-menu-material-bluegrey .luxbar-item:hover {
+background-color: #37474F;
+}
+
+.luxbar-menu-material-bluegrey .luxbar-hamburger span::after,
+.luxbar-menu-material-bluegrey .luxbar-hamburger span::before,
+.luxbar-menu-material-bluegrey .luxbar-hamburger span {
+background-color: #fff;
+}
+
 
 /*general hamburger specs*/
 
 .luxbar-hamburger {
-    padding: 26px 0px 26px 26px;
+    padding: 26px;
     position: relative;
 }
 
@@ -129,7 +329,7 @@
 }
 
 #luxbar-checkbox:checked ~ .luxbar-menu {
-    height: 50vh;
+    height: 100vh;
     overflow: auto;
 }
 
@@ -165,3 +365,26 @@
 
 
 /*behavior under screenwidth 768*/
+
+@media screen and (min-width: 800px) {
+    .luxbar-navigation {
+        flex-flow: row;
+        justify-content: flex-end;
+        background-color: none;
+    }
+    .luxbar-header {
+        margin-right: auto;
+    }
+    .luxbar-hamburger {
+        display: none;
+    }
+
+    .luxbar-menu .luxbar-item:nth-child(2) {
+        border-top: 0px;
+    }
+}
+
+
+@media screen and (max-width: 800px) {
+
+  .luxbar-menu { background-color: none;}
