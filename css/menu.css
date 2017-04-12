@@ -40,7 +40,6 @@
     overflow: hidden;
     transition: height .6s ease;
     width:100%;
-    background-color: white;
 }
 
 .luxbar-navigation {
@@ -73,7 +72,7 @@
 }
 
 .luxbar-menu-light .luxbar-item:nth-child(2) {
-    border-top: 1px solid #2E69FF;
+    border-top: 2px solid #2E69FF;
 }
 
 .luxbar-menu-light .active,
@@ -370,7 +369,6 @@ background-color: #fff;
     .luxbar-navigation {
         flex-flow: row;
         justify-content: flex-end;
-        background-color: none;
     }
     .luxbar-header {
         margin-right: auto;
@@ -385,6 +383,9 @@ background-color: #fff;
 }
 
 
-@media screen and (max-width: 800px) {
-
-  .luxbar-menu { background-color: none;}
+@media screen and (max-width: 48em ) {
+  .luxbar-item {
+    background-color: white;
+    border-bottom: 1px solid #e2e2e2;
+  }
+}
