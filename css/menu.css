@@ -1,0 +1,167 @@
+/*.luxbar styles: default, static, fixed*/
+.luxbar-default{
+    width: 100%;
+    position: relative;
+
+}
+
+.luxbar-static {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.luxbar-fixed {
+    width: 100%;
+    position:fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
+
+/*general luxbar specs*/
+.luxbar-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 72px;
+}
+
+.luxbar-brand {
+    font-size: 1.2em;
+    padding: 0px;
+    font-weight: 500;
+}
+
+.luxbar-menu {
+    height: 72px;
+    overflow: hidden;
+    transition: height .6s ease;
+    width:100%;
+}
+
+.luxbar-navigation {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding-left:0;
+    margin: 0px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.luxbar-menu a,
+.luxbar-item a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.luxbar-item a {
+    padding: 26px 0px 26px 26px;
+    display: block;
+}
+
+
+/* default luxbar-menu themes: dark, light, transparent*/
+    /*luxbar-menu-light*/
+
+.luxbar-menu-light {
+    color: #ABB3B3;
+    max-width: 1230px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+
+
+.luxbar-menu-light .luxbar-item:nth-child(2) {
+    border-top: 1px solid #D0D7D9;
+}
+
+.luxbar-menu-light .active,
+.luxbar-menu-light .luxbar-item:hover {
+    color: black;
+}
+
+.luxbar-menu-light .luxbar-hamburger span::after,
+.luxbar-menu-light .luxbar-hamburger span::before,
+.luxbar-menu-light .luxbar-hamburger span {
+    background-color: #2E69FF;
+}
+
+
+/*general hamburger specs*/
+
+.luxbar-hamburger {
+    padding: 26px 0px 26px 26px;
+    position: relative;
+}
+
+.luxbar-hamburger span::before {
+    margin-top: -8px;
+}
+
+.luxbar-hamburger span::after {
+    margin-top: 8px;
+}
+
+.luxbar-hamburger span::after,
+.luxbar-hamburger span::before {
+    content: '';
+    position: absolute;
+}
+.luxbar-hamburger span::after,
+.luxbar-hamburger span::before,
+.luxbar-hamburger span {
+    display: block;
+    height: 3px;
+    width: 25px;
+    transition: .6s ease-out;
+}
+
+#luxbar-checkbox {
+    display: none;
+}
+
+#luxbar-checkbox:checked ~ .luxbar-menu {
+    height: 50vh;
+    overflow: auto;
+}
+
+#luxbar-checkbox:checked ~ .luxbar-menu li .luxbar-hamburger span {
+    background-color: transparent;
+}
+#luxbar-checkbox:checked ~ .luxbar-menu li .luxbar-hamburger span::before,
+#luxbar-checkbox:checked ~ .luxbar-menu li .luxbar-hamburger span::after {
+    margin-top: 0px;
+}
+
+
+/*hamburger-themes: spin, doublespin*/
+    /*hamburger-spin*/
+
+#luxbar-checkbox:checked ~ .luxbar-menu li .luxbar-hamburger-spin span::before {
+    transform: rotate(45deg);
+}
+
+#luxbar-checkbox:checked ~ .luxbar-menu li .luxbar-hamburger-spin span::after {
+    transform: rotate(-45deg);
+}
+
+    /*hamburger-spin*/
+
+#luxbar-checkbox:checked ~ .luxbar-menu li .luxbar-hamburger-doublespin span::before {
+    transform: rotate(225deg);
+}
+
+#luxbar-checkbox:checked ~ .luxbar-menu li .luxbar-hamburger-doublespin span::after {
+    transform: rotate(-225deg);
+}
+
+
+/*behavior under screenwidth 768*/

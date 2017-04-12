@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <g fill="none" fill-rule="evenodd">
+    <path fill="#FFFFFF" d="M48.75,1.0909148e-15 C58,1.0909148e-15 64,6 64,15.25 L64,48.75 C64,58 58,64 48.75,64 L15.25,64 C6,64 0,58 0,48.75 L0,15.25 C0,6 6,1.0909148e-15 15.25,1.0909148e-15 L48.75,1.0909148e-15 Z"/>
+    <circle cx="32" cy="32" r="25" fill="#25272E"/>
+    <g fill="#65869C" transform="translate(10 10)">
+      <g transform="translate(21)">
+        <rect width="2" height="5"/>
+        <rect width="2" height="5" y="39"/>
+      </g>
+      <g transform="rotate(90 11.5 32.5)">
+        <rect width="2" height="5"/>
+        <rect width="2" height="5" y="39"/>
+      </g>
+    </g>
+    <g fill="#65869C" transform="rotate(30 8.34 45.66)">
+      <g transform="translate(21)">
+        <rect width="2" height="5"/>
+        <rect width="2" height="5" y="39"/>
+      </g>
+      <g transform="rotate(90 11.5 32.5)">
+        <rect width="2" height="5"/>
+        <rect width="2" height="5" y="39"/>
+      </g>
+    </g>
+    <g fill="#65869C" transform="rotate(60 18.34 35.66)">
+      <g transform="translate(21)">
+        <rect width="2" height="5"/>
+        <rect width="2" height="5" y="39"/>
+      </g>
+      <g transform="rotate(90 11.5 32.5)">
+        <rect width="2" height="5"/>
+        <rect width="2" height="5" y="39"/>
+      </g>
+    </g>
+    <rect width="14" height="2" x="33" y="31" fill="#FAB500"/>
+    <rect width="2" height="21" x="31" y="33" fill="#FFFFFF"/>
+    <rect width="2" height="12" x="23.182" y="30.318" fill="#FFFFFF" transform="rotate(62 24.182 36.318)"/>
+    <rect width="6" height="6" x="29" y="29" fill="#FAB500" rx="3"/>
+  </g>
+</svg>

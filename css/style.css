@@ -1,0 +1,229 @@
+body {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+    font-family: "Montserrat", sans-serif;
+    background-color: #F9F9F9;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+#all {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#bar {
+    width: 100%;
+    background-color: #ffffff;
+    border-top: 1px solid #CDCDCD;
+    height: 72px;
+}
+#bar2 {
+    width: 100%;
+    background-color: #ffffff;
+    height: 72px;
+    display: inline-block;
+}
+#projecttext {
+    font-family: "Montserrat", sans-serif;
+    font-size: 15px;
+    color: #b9b7b7;
+    font-weight: 500;
+    line-height: 2.75;
+    margin-left: 36px;
+    text-align: left;
+    letter-spacing: 1.6px;
+}
+#projecttextlink {
+    font-family: "Montserrat", sans-serif;
+    font-size: 15px;
+    color: #2E69FF;
+    font-weight: 500;
+    margin-top: -45px;
+    margin-right: 36px;
+    text-align: right;
+}
+#site {
+    top: 0;
+}
+#full {
+    width: 100%;
+    height: 650px;
+}
+#title {
+    margin-left: 43px;
+}
+#textwrap {
+    width: 1230px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+}
+#sincetext {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-70%);
+    font-size: 48px;
+    font-weight: 400;
+}
+#since {
+    width: 100%;
+    height: 350px;
+    background-image: url('bgsection.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    display: inline-block;
+}
+#header {
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    z-index: 2;
+    margin-top: -38px;
+    background-image: url('bgnew.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+#nav {
+    width: 100%;
+    top: 0;
+    z-index: 3;
+    min-height: 72px;
+    position: absolute;
+}
+#line {
+    width: 100%;
+    height: 2px;
+    background-color: #2E69FF;
+}
+#text {
+    position: relative;
+    font-size: 28px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    text-align: left;
+    vertical-align: middle;
+    top: 55%;
+    transform: translateY(-50%);
+    width: 750px;
+}
+.project {
+    width: 50%;
+    height: 475px;
+    padding-top: 36px;
+    overflow: hidden;
+    float: left;
+}
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-weight: 400;
+    text-align: center;
+    font-size: 18px;
+}
+#projectlogo {
+    height: 64px;
+    width: 168px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+#projectimage {
+    width: 551px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 21px;
+}
+#projectimagefull {
+    width: 1102px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 15px;
+}
+#description {
+    width: 375px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.5;
+    margin-top: -10px;
+}
+p {
+    font-family: 'Montserrat', serif;
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+}
+.imageani {
+    transition: all .2s ease-in-out;
+}
+.imageani:hover {
+    transform: scale(1.02);
+}
+@media screen and (max-width: 800px) {
+    .project {
+        z-index: -1;
+        width: 100%;
+        height: auto;
+        padding-top: 30px;
+        overflow: hidden;
+        float: none;
+        margin-left: auto !important;
+        margin-right: auto;
+    }
+    #left {
+        margin-left: 0px;
+    }
+    #full {
+        height: auto;
+    }
+    #nav {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #textwrap {
+        width: 95%;
+    }
+    #title {
+        margin-left:21px;
+        margin-top:-18px!important;
+        font-weight:500!important;
+    }
+    #sincetext {
+        font-size: 24px;
+        width: 95%;
+    }
+    #text {
+        margin-left: auto;
+        margin-right: auto;
+        width: 95%;
+        font-size: 16px;
+        top: 52%;
+        font-weight: 500!important;
+    }
+    #projectimage {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        margin-top: 15px;
+    }
+    #projectimagefull {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        margin-top: 15px;
+    }
+}
