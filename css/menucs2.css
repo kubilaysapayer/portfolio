@@ -6,14 +6,12 @@
 
 .luxbar-static {
     width: 100%;
-    position: absolute;
     top: 0;
     left: 0;
 }
 
 .luxbar-fixed {
     width: 100%;
-    /* position:absolute; */
     top: 0;
     left: 0;
     z-index: 1000;
@@ -83,7 +81,7 @@
 .luxbar-menu-light .luxbar-hamburger span::after,
 .luxbar-menu-light .luxbar-hamburger span::before,
 .luxbar-menu-light .luxbar-hamburger span {
-    background-color: #2E69FF;
+    background-color: #0084da;
 }
 
     /*luxbar-menu-dark*/
@@ -99,7 +97,7 @@
 
 .luxbar-menu-dark .active,
 .luxbar-menu-dark .luxbar-item:hover {
-    background-color: #2E69FF;
+    background-color: #0084da;
 }
 
 .luxbar-menu-dark .luxbar-hamburger span::after,
@@ -365,7 +363,7 @@ background-color: #fff;
 
 /*behavior under screenwidth 768*/
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 800px) {
     .luxbar-navigation {
         flex-flow: row;
         justify-content: flex-end;
@@ -383,7 +381,7 @@ background-color: #fff;
 }
 
 
-@media screen and (max-width: 1024px ) {
+@media screen and (max-width: 800px ) {
   .luxbar-item {
     background-color: white;
     border-bottom: 1px solid #e2e2e2;

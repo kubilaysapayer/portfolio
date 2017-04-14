@@ -68,10 +68,17 @@
 
 	.footer-distributed .footer-right{
 		float: none;
-		margin: 0 0 20px;
+		/* margin: 0 0 20px; */
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 24px;
 	}
 
 	.footer-distributed .footer-left p.footer-links{
 		line-height: 1.8;
+		text-align: center!important;
+	}
+	.footer-distributed .footer-left p {
+		text-align: center!important;
 	}
 }

@@ -10,6 +10,12 @@
  	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+  <script>
+  $(".myBox").click(function(){
+window.location=$(this).find("a").attr("href");
+return false;
+});
+  </script>
   </head>
 <body>
 
@@ -21,13 +27,13 @@
       <div class="luxbar-menu luxbar-menu-right luxbar-menu-light">
           <ul class="luxbar-navigation">
               <li class="luxbar-header">
-                  <img src="images/logos/logo.svg" class="luxbar-brand">
+                  <a href="index.html"><img  src="images/logos/logo.svg" class="luxbar-brand"></a>
                   <label class="luxbar-hamburger luxbar-hamburger-spin"
                   id="luxbar-hamburger" for="luxbar-checkbox"> <span></span> </label>
               </li>
-              <li style="color:#2E69FF;" class="luxbar-item"><a href="#">Home</a></li>
+              <li style="color:#2E69FF;" class="luxbar-item"><a href="index.html">Home</a></li>
               <li class="luxbar-item"><a href="#">About</a></li>
-              <li class="luxbar-item"><a href="#">Contact</a></li>
+              <li class="luxbar-item right"><a href="#">Contact</a></li>
           </ul>
       </div>
   </header>
@@ -44,66 +50,102 @@
 		</div>
 
 		</div>
-<div id="bar">
-  <h3 id="projecttext">UI / UX PROJECTS</h3>
-  <h3 id="projecttextlink">More work on Dribbble &#8250;</h3>
-</div>
-	<div id="all">
 
-		<div class="project" style="background-color: #ED5153; margin-top: 0px;">
-			<img id="projectlogo" src="images/logos/lightspeed.svg">
-			<h2>Lightspeed</h2>
-			<p id="description">See Case Study &#10095;</p>
-			<img id="projectimage" src="images/lightspeed.png">
-		</div>
-		<div class="project" id="left" style="background-color: #017EDA; margin-top: 0px;">
+	<div id="all">
+    <div id="bar">
+      <h3 id="projecttext">UI / UX PROJECTS</h3>
+      <a href="http://dribbble.com/kubilay"><h3 id="projecttextlink">More work on Dribbble &#8250;</h3></a>
+    </div>
+
+    <a href="cs1.html">
+      <div id="left" class="project" style="background-color: #ED5153; margin-top: 0px;">
+  			<img id="projectlogo" src="images/logos/lightspeed.svg">
+        <h2>Lightspeed eCom, Retail & Resto</h2>
+  			<p id="description">Case Study&#8250;</p>
+  			<img id="projectimage" src="images/lightspeed.png">
+		   </div>
+      </a>
+		<a href="cs2.html">
+      <div class="project" style="background-color: #017EDA; margin-top: 0px;">
 			<img id="projectlogo" src="images/logos/bva.svg">
 			<h2>BVA Auctions iOS App</h2>
-			<p id="description">See Case Study &#10095;</p>
+			<p id="description">Case Study&#8250;</p>
 			<img id="projectimage" src="images/bva.png">
 		</div>
+    </a>
 		<div class="project" id="full" style="background-color: #E4E5E9;">
 			<img id="projectlogo" src="images/logos/3drops.svg">
 			<h2 style="color: #474955;">3Drops</h2>
-			<p id="description" style="color:#92949C;">See Case Study &#10095;</p>
+			<p id="description" style="color:#92949C;">Case Study Coming Soon</p>
 			<img id="projectimagefull"  src="images/jobs.png">
 		</div>
-		<div class="project"   style="background-color: #2A3278;">
+		<a href="cs1.html"><div  class="project" id="left"  style="background-color: #2A3278;">
 			<img id="projectlogo" src="images/logos/ultimatum.svg">
-			<h2>Lightspeed</h2>
-			<p id="description">See Case Study &#10095;</p>
+			<h2>UltimatumApp</h2>
+			<p id="description">Case Study &#8250;</p>
 			<img id="projectimage"  src="images/ultimatum.png">
 		</div>
-		<div class="project" id="left" style="background-color: #EFBD24;">
+    </a>
+		<a href="cs1.html"><div class="project"  style="background-color: #EFBD24;">
 			<img id="projectlogo" src="images/logos/smashpad.svg">
 			<h2>3Drops</h2>
-			<p id="description" >See Case Study &#10095;</p>
+			<p id="description" >KickStarter Page &#8250;</p>
 			<img id="projectimage"  src="images/smashpad.png">
 		</div>
+    </a>
+    <div class="project bottom" id="full" style="background-color: #F2F2F2;">
+      <h2 style="color: #474955;">Free Bank App Sketch Template</h2>
+      <p id="description" style="color:#92949C;">DOWNLOAD</p>
+      <img id="projectimagefull"  src="images/monitise.jpg">
+    </div>
+
+
+
     <div id="bar2">
       <h3 id="projecttext">ICONS / LOGO'S</h3>
-      <h3 id="projecttextlink">More work on Dribbble &#8250;</h3>
+      <a href="http://dribbble.com/kubilay"><h3 id="projecttextlink">More work on Dribbble &#8250;</h3></a>
     </div>
-    <div class="project" style="background-color: #30333B; margin-top: 0px; ">
+	<div class="project icon" id="left" style="background-color: #30333B; margin-top: 0px; ">
       <img id="projectimage" style="margin-bottom: 30px;" src="images/sg.png">
       <h2>Security-Guard.nl</h2>
-			<p id="description">See Case Study &#10095;</p>
+			<p id="description">Website Coming Soon</p>
 		</div>
-		<div class="project" id="left" style="background-color: #d82f3c; margin-top: 0px; ">
+		<a href="cs1.html"><div class="project icon"  style="background-color: #d82f3c; margin-top: 0px; ">
       <img id="projectimage" style="margin-bottom: 30px;" src="images/crave.png">
       <h2>Crave It for iOS</h2>
-			<p id="description">See Case Study &#10095;</p>
+			<p id="description">Instagram Page ›</p>
 		</div>
-    <div class="project" style="background-color: #FF8C24; margin-top: 0px; ">
+    <a href="cs1.html"><div class="project icon" id="left" style="background-color: #FF8C24; margin-top: 0px; ">
       <img id="projectimage" style="margin-bottom: 30px;" src="images/pounce.png">
-      <h2>Lightspeed</h2>
-      <p id="description">See Case Study &#10095;</p>
+      <h2>Pounce for iOS</h2>
+      <p id="description">See Case Study &#8250;</p>
     </div>
-    <div class="project" id="left" style="background-color: #00BB8E; margin-top: 0px; ">
+  </a>
+    <a href="cs1.html"><div class="project icon" style="background-color: #00BB8E; margin-top: 0px; ">
       <img id="projectimage" style="margin-bottom: 30px;" src="images/moment.png">
-      <h2>Lightspeed</h2>
-      <p id="description">See Case Study &#10095;</p>
+      <h2>Moment for iOS</h2>
+      <p id="description">Coming Soon</p>
     </div>
+  </a>
+  <a href="cs1.html"><div class="project icon"  id="fullicon" style="background-color: #2A3278; margin-top: 0px; ">
+    <img id="projectimagefull" style="margin-bottom: 30px;" src="images/mojo.jpg">
+    <h2>Mojo for iOS</h2>
+    <p id="description">Article &#8250;</p>
+  </div>
+</a>
+<a href="cs1.html"><div class="project icon" id="left" style="background-color: #d82f3c; margin-top: 0px; ">
+  <img id="projectimage" style="margin-bottom: 30px;" src="images/showyou.png">
+  <h2>ShowYou for iOS</h2>
+  <p id="description">Website &#8250;</p>
+</div>
+</a>
+ <a href="cs1.html"><div class="project icon"   style="background-color: #017EDA; margin-top: 0px; ">
+    <img id="projectimage" style="margin-bottom: 30px;" src="images/telly.png">
+    <h2>Telly for iOS</h2>
+    <p id="description">Website &#8250;</p>
+  </div>
+</a>
+
 
 
 	</div>
@@ -111,11 +153,11 @@
 
 </div>
 <div id="since">
-  <div id="line"> </div>
     <h1 id="sincetext"> Designing<span style="color:#2E69FF;"> Pixel Perfect</span> Interfaces & Illustrations Since '09 </h1>
 </div>
 <div id="line"> </div>
 <footer class="footer-distributed">
+<div id="footercenter">
 
   <div class="footer-right">
 
@@ -138,7 +180,7 @@
 
     <p style="text-align:left;">Kubilay Sapayer - UI Designer &copy; 2017</p>
   </div>
-
+</div>
 </footer>
 
 </body>
