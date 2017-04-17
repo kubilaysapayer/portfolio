@@ -8,8 +8,62 @@ body {
     height: 100%;
     background-color: #FAFAFA;
 }
+/* The fast way */
+.make-it-fast {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Pre-render the bigger shadow, but hide it */
+.make-it-fast::after {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+#footercenter {
+    max-width: 1440px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.bottom {
+  margin-bottom:0!important;
+}
+/* Transition to showing the bigger shadow on hover */
+.make-it-fast:hover::after {
+  opacity: 1;
+}
+.project {
+  position: relative;
+  display: inline-block;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15),inset 0px 0px 0px 1px rgba(0,0,0,0.10);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Create the hidden pseudo-element */
+/* include the shadow for the end state */
+.project::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  opacity: 0;
+  border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15),inset 0px 0px 0px 1px rgba(0,0,0,0.10);
+  transition: opacity 0.3s ease-in-out;
+}
+.project:hover {
+  transform: scale(1.02, 1.02);
+}
+
+/* Fade in the pseudo-element with the bigger shadow */
+.project:hover::after {
+  opacity: 1;
+}
+#left {
+        margin-right: 3%;
+    }
 #all {
-   margin-left: auto;
+    margin-left: auto;
     margin-right: auto;
     max-width: 1440px;
     padding-left:26px;
@@ -19,15 +73,10 @@ a {
     text-decoration: none;
     font-family: 'Montserrat',sans-serif;
 }
-#fixdes {
-    width:90%;
-    margin-left:auto;
-    margin-right:auto;
-}
 #bar {
     width: 100%;
     height: 72px;
-    display: inline-block ;
+    display: inline-block;
 }
 #barcs {
     width: 100%;
@@ -42,8 +91,8 @@ a {
 }
 #csinfo {
     width: 100%;
-    border: 2px solid rgb(0, 132, 218);
-    height: 200px;
+    border: 1px solid rgba(0,0,0,0.2);
+    height: 199px;
     max-width: 1024px;
     background-color: white;
     margin-left: auto;
@@ -68,18 +117,19 @@ a {
 }
 #projectdescription {
   opacity: 0.5;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   text-align: left;
 }
+
 #projectdescriptiont {
   color: black;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
   text-align: left;
   max-width: 600px;
   /* margin-bottom: 100px; */
-  margin-top: -16px;
+  margin-top: -19px;
 }
 #projecttext {
     font-family: "Montserrat", sans-serif;
@@ -95,7 +145,7 @@ table.tg {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    line-height: 36px;
+    line-height: 37px;
     padding-left: 24px;
     padding-right: 24px;
     max-width: 750px;
@@ -106,11 +156,11 @@ table.tg {
 .question {
     text-align: left;
     opacity: 0.4;
-    font-size: 16px;
+    font-size: 15px;
 }
 .answer {
     text-align: right;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 500;
 }
 #projecttextcs {
@@ -150,18 +200,23 @@ table.tg {
 }
 #full {
     width: 100%;
-    height: 650px;
+    height: 500px;
+}
+#fullicon {
+    width: 100%;
+    height: 475px;
 }
 #title {
     margin-left: 38px;
     font-weight: 400;
 }
-#titlecs {font-weight: 600;font-size: 20px;margin-top: -29px;}
+#titlecs {font-weight: normal;font-size: 20px;margin-top: -30px;}
 #textwrap {
-    width: 1230px;
+    max-width: 1440px;
     margin-left: auto;
     margin-right: auto;
     height: 100%;
+    padding-left: 26px;
 }
 #textwrapcs {
     margin-left: auto;
@@ -195,7 +250,7 @@ table.tg {
 #sincecs1 {
     width: 100%;
     height: 350px;
-    background-image: url('cs1bg.jpg');
+    background-image: url('cs2.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -216,24 +271,36 @@ table.tg {
     display: inline-block ;
     border-bottom: 1px solid #CDCDCD;
 }
-
+#bottom {
+  margin-bottom: 0px!important;
+}
+.right {
+    padding-right: 0!important;
+}
 #headercs1 {
     width: 100%;
     height: 99vh;
-    background-color: white;
+    background-color: #ffffff;
     z-index: 2;
-    background-image: url('cs2.jpg');
+    border-bottom: 1px solid #e7e7e7;
+    background-image: url(cs2.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    border-bottom: 1px solid #e7e7e7;
 }
 #nav {
     width: 100%;
     top: 0;
     z-index: 3;
     min-height: 72px;
-    position: absolute;
+    position: fixed;
+
+}
+#luxbar {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 #line {
     width: 100%;
@@ -261,6 +328,11 @@ table.tg {
     margin-right: auto;
     height: 128px;
 }
+#fixdes {
+    width:90%;
+    margin-left:auto;
+    margin-right:auto;
+}
 #textcs {
     position: relative;
     font-size: 21px;
@@ -275,11 +347,13 @@ table.tg {
     margin-left: auto;
 }
 .project {
-    width: 50%;
+    width: 48.5%;
     height: 475px;
     padding-top: 36px;
     overflow: hidden;
     float: left;
+    margin-bottom: 36px;
+    /* margin-right: 36px; */
 }
 h2 {
     font-family: 'Montserrat', sans-serif;
@@ -328,7 +402,8 @@ p {
     text-transform: ;
 }
 h1 {
-    font-weight: 600;
+    font-weight: bold;
+    font-size: 36px;
 }
 .imageani {
     transition: all .2s ease-in-out;
@@ -340,6 +415,9 @@ h1 {
           width: 1150px;}
 
 @media screen and (max-width: 1024px) {
+    .icon {
+        padding-bottom:28px;
+}
     #headercs1 {
         height: auto;
         overflow: auto;
@@ -357,6 +435,7 @@ h1 {
         padding-left: 0;
         padding-right: 0;
     }
+
     #fixdes {
         width: 90%;
         margin-left: auto;
@@ -382,6 +461,7 @@ h1 {
         padding-top: 30px;
         overflow: hidden;
         float: none;
+        display: block;
         margin-left: auto !important;
         margin-right: auto;
     }
@@ -466,11 +546,12 @@ h1 {
     }
     #cslogo {
         height: 100px;
+
     }
 }
 
 
-@media screen and (max-width: 1140px) {
+@media screen and (max-width: 1440px) {
 
   #showcaseimg {
             width: 100%;}
@@ -480,18 +561,6 @@ h1 {
                 margin-right: auto;
                 margin-top: 64px;
             }
-
-
-}
-}
-
-
-}
-}
-
-
-}
-}
 
 
 }

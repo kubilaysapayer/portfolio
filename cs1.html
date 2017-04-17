@@ -10,6 +10,46 @@
  	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+  <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script>
+
+<script>
+  var nav = document.getElementById('nav'),
+      header = document.getElementById('header'),
+      headerOffset = header.offsetHeight;
+
+  function scrollFunction() {
+    var scrollTop = document.body.scrollTop;
+
+    if (scrollTop > headerOffset) {
+      nav.classList.add('nav-background');
+    } else {
+      nav.classList.remove('nav-background');
+    }
+  }
+
+  window.onscroll = scrollFunction;
+</script>
+  <script>
+          $(".myBox").click(function(){
+        window.location=$(this).find("a").attr("href");
+        return false;
+        });
+  </script>
+  <script type="text/javascript">
+
+						  var _gaq = _gaq || [];
+
+						  _gaq.push(['_setAccount', 'UA-21076529-1']);
+
+						  _gaq.push(['_trackPageview']);
+
+						  (function() {
+						    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+						    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+						    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+						  })();
+
+			  </script>
   </head>
 <body>
 
@@ -58,14 +98,14 @@
               </tr>
               <tr>
                 <td class="question">Website</td>
-                <td class="answer">www.lightspeedhq.com</td>
+                <td style="color:#EE4F51;" class="answer">www.lightspeedhq.com &#8250;</td>
               </tr>
           </table>
           </div>
           <div id="csinforight">
             <div id="fixdes">
               <h4 id="projectdescription">Project Description </h4>
-              <p id="projectdescriptiont">I've helped Lightspeed with giving they Backoffice a better user experience with easy to use UI and clean looks. Also redesigned the Illustration style of Lightspeed with a more humane look. </p>
+              <p id="projectdescriptiont">I've helped Lightspeed with giving they Backoffice a better user experience with easy to use UI and clean looks. Also redesigned the Illustration style of Lightspeed with a more humane, coloured look and feel wich is used by 35.000+ customers across the world.  </p>
             </div>
           </div>
         </div>

@@ -91,8 +91,8 @@ a {
 }
 #csinfo {
     width: 100%;
-    border: 2px solid rgb(237, 81, 83);
-    height: 200px;
+    border: 1px solid rgba(0,0,0,0.2);
+    height: 199px;
     max-width: 1024px;
     background-color: white;
     margin-left: auto;
@@ -117,19 +117,19 @@ a {
 }
 #projectdescription {
   opacity: 0.5;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   text-align: left;
 }
 
 #projectdescriptiont {
   color: black;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
   text-align: left;
   max-width: 600px;
   /* margin-bottom: 100px; */
-  margin-top: -16px;
+  margin-top: -19px;
 }
 #projecttext {
     font-family: "Montserrat", sans-serif;
@@ -145,7 +145,7 @@ table.tg {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    line-height: 36px;
+    line-height: 37px;
     padding-left: 24px;
     padding-right: 24px;
     max-width: 750px;
@@ -156,11 +156,11 @@ table.tg {
 .question {
     text-align: left;
     opacity: 0.4;
-    font-size: 16px;
+    font-size: 15px;
 }
 .answer {
     text-align: right;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 500;
 }
 #projecttextcs {
@@ -210,7 +210,7 @@ table.tg {
     margin-left: 38px;
     font-weight: 400;
 }
-#titlecs {font-weight: 600;font-size: 20px;margin-top: -29px;}
+#titlecs {font-weight: normal;font-size: 20px;margin-top: -30px;}
 #textwrap {
     max-width: 1440px;
     margin-left: auto;
@@ -238,7 +238,7 @@ table.tg {
 #since {
     width: 100%;
     height: 350px;
-    background-image: url('bgsection.png');
+    background-image: url('about.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -250,7 +250,7 @@ table.tg {
 #sincecs1 {
     width: 100%;
     height: 350px;
-    background-image: url('cs1bg.jpg');
+    background-image: url('cs1.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -271,6 +271,9 @@ table.tg {
     display: inline-block ;
     border-bottom: 1px solid #CDCDCD;
 }
+.nav-background {
+    background-color: #ffffff;
+}
 #bottom {
   margin-bottom: 0px!important;
 }
@@ -284,6 +287,17 @@ table.tg {
     z-index: 2;
     border-bottom: 1px solid #e7e7e7;
     background-image: url(cs1.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+#headerabout{
+    width: 100%;
+    height: 99vh;
+    background-color: #ffffff;
+    z-index: 2;
+    border-bottom: 1px solid #e7e7e7;
+    background-image: url(about.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -369,6 +383,24 @@ h2 {
     margin-right: auto;
     display: block;
 }
+
+.bg {
+  background: #ffffff;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.show {
+  opacity: 1;
+}
+
+.transition {
+  -webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	-o-transition: all 1s ease-in-out;
+	transition: all 1s ease-in-out;
+}
 #projectimage {
     width: 551px;
     margin-left: auto;
@@ -382,6 +414,10 @@ h2 {
     margin-right: auto;
     display: block;
     margin-top: 15px;
+}
+#bigtitlecs {
+    font-size: 36px;
+
 }
 #description {
     width: 375px;
@@ -402,7 +438,7 @@ p {
     text-transform: ;
 }
 h1 {
-    font-weight: 600;
+    font-weight: bold;
 }
 .imageani {
     transition: all .2s ease-in-out;
@@ -418,6 +454,10 @@ h1 {
         padding-bottom:28px;
 }
     #headercs1 {
+        height: auto;
+        overflow: auto;
+    }
+    #headerabout {
         height: auto;
         overflow: auto;
     }
@@ -524,6 +564,7 @@ h1 {
         display: block;
         margin-top: 15px;
     }
+
     #textwrapcs {
         width: 90%;
         margin-left: auto;
@@ -550,16 +591,32 @@ h1 {
 }
 
 
-@media screen and (max-width: 1150px) {
+@media screen and (max-width: 1440px) {
 
   #showcaseimg {
             width: 100%;}
-            #showcase {
+  #showcase {
                 width: 95%;
                 margin-left: auto;
                 margin-right: auto;
                 margin-top: 64px;
             }
+  #projectimagefull {
+                width: 95%;
+                margin-left: auto;
+                margin-right: auto;}
+  #projectimage {
+                    width: 95%;
+                    margin-left: auto;
+                    margin-right: auto;}
+                    .project {height: auto;}
+                    #full {
+                        height: auto;
+                    }
+                    #fullicon {
+                        height: auto;
+                    }
+                    .icon {padding-bottom: 26px;}
 
 
 }

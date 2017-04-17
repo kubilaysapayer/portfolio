@@ -41,7 +41,9 @@
     transition: height .6s ease;
     width:100%;
 }
-
+.luxbar-header::after {
+  background-color: white;
+}
 .luxbar-navigation {
     display: flex;
     flex-direction: column;
