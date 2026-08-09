@@ -156,6 +156,7 @@ main{max-width:1280px;margin:0 auto;padding:20px 18px 0}
   backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
 }
 .shopbar .row{max-width:1280px;margin:0 auto;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.shopbtns{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .shopbar .who{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
 .shopbar .who .nm{font-weight:800;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .shopbar .who .sub2{color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums;
@@ -235,6 +236,21 @@ main{max-width:1280px;margin:0 auto;padding:20px 18px 0}
 .item .it{font-size:13.5px;line-height:1.35}
 .item .idet{color:var(--muted);font-size:12px}
 .item .iacts{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+
+/* ---------- stemmen ---------- */
+.vote{
+  display:flex;align-items:center;gap:1px;background:var(--bg-soft);border:1px solid var(--line);
+  border-radius:9px;padding:2px;flex-shrink:0;
+}
+.varr{
+  background:none;border:none;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;
+  color:var(--muted);font-size:12px;line-height:1;transition:.15s;
+}
+.varr:hover{background:var(--card-hover);color:var(--txt)}
+.varr.up.on{color:var(--ok);background:rgba(111,191,115,.14)}
+.varr.down.on{color:var(--danger);background:rgba(255,122,92,.14)}
+.vn{min-width:22px;text-align:center;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--txt)}
+.card .vote{align-self:flex-start;margin-top:-2px}
 
 /* ---------- tabbalk ---------- */
 .tabbar{
@@ -316,6 +332,10 @@ footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);fon
   body{padding-bottom:calc(var(--tabh) + 26px + env(safe-area-inset-bottom))}
   .icobtn{width:40px;height:40px}
   .open{padding:11px 10px}
+  /* shopbalk: naam+host krijgen de hele eerste regel, de knoppen wijken
+     uit naar een tweede regel i.p.v. de naam tot twee letters af te knijpen */
+  .shopbar .row{flex-wrap:wrap;row-gap:8px}
+  .shopbtns{flex:1 1 100%;justify-content:flex-end}
 }
 </style>
 </head>
@@ -349,6 +369,7 @@ footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);fon
         <option value="az">Naam A–Z</option>
         <option value="recent">Laatst geopend</option>
         <option value="most">Meest geopend</option>
+        <option value="votes">Meest gestemd</option>
       </select>
       <a class="btn" href="#/lijst" id="listLink">♥ Mijn lijst</a>
     </div>
@@ -374,9 +395,12 @@ footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);fon
           <div class="sub2" id="shopSub"></div>
         </div>
       </div>
-      <button class="icobtn" id="shopFav" title="Favoriet">☆</button>
-      <button class="icobtn" id="shopExt" title="Open op Yupoo">↗</button>
-      <button class="icobtn" id="shopMore" title="Bron &amp; verversen">⋯</button>
+      <div class="shopbtns">
+        <div id="shopVote"></div>
+        <button class="icobtn" id="shopFav" title="Favoriet">☆</button>
+        <button class="icobtn" id="shopExt" title="Open op Yupoo">↗</button>
+        <button class="icobtn" id="shopMore" title="Bron &amp; verversen">⋯</button>
+      </div>
     </div>
     <div class="shopsearch">
       <input id="shopQ" type="search" placeholder="Zoek in deze shop…" autocomplete="off">
@@ -509,7 +533,8 @@ const blank = {
   favs:[], hidden:[], custom:[], over:{}, stats:{}, sort:"default", showHidden:false,
   saved:[],                       // gelikete producten
   proxy:0, customProxy:"",        // bron voor het ophalen van shoppagina's
-  rate:null, manualRate:0.13      // CNY -> EUR
+  rate:null, manualRate:0.13,     // CNY -> EUR
+  votes:{}, voteBackendIdx:0, voteNs:""   // jouw eigen stem per seller + welke teller-bron/namespace
 };
 let S = load();
 
@@ -805,6 +830,7 @@ function visible(){
   if(S.sort === "az") out.sort(byName);
   else if(S.sort==="recent") out.sort((a,b)=> st(b.id).last - st(a.id).last || byName(a,b));
   else if(S.sort==="most") out.sort((a,b)=> st(b.id).c - st(a.id).c || byName(a,b));
+  else if(S.sort==="votes") out.sort((a,b)=> (voteScores[b.id]||0) - (voteScores[a.id]||0) || byName(a,b));
   else out.sort((a,b)=> (isFav(b.id)-isFav(a.id)) || byName(a,b));
   return out;
 }
@@ -822,6 +848,7 @@ function render(){
   bar.innerHTML = html;
 
   const list = visible();
+  ensureVotesLoaded(list.map(s=>s.id));
   $("#count").textContent = `· ${list.length} seller${list.length===1?"":"s"}`;
   const favs = list.filter(s=>isFav(s.id));
   const rest = list.filter(s=>!isFav(s.id));
@@ -849,6 +876,7 @@ function card(s){
       </div>
       <button class="star ${isFav(s.id)?"on":""}" data-act="fav" title="Favoriet">${isFav(s.id)?"★":"☆"}</button>
     </div>
+    ${voteWidget(s.id)}
     ${s.d?`<div class="note">${esc(s.d)}</div>`:'<div class="note"></div>'}
     ${(s.t&&s.t.length)?`<div class="tags">${s.t.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>`:""}
     ${s.p?`<button class="pass" data-act="pass" title="Kopieer wachtwoord">🔑 ${esc(s.p)}</button>`:""}
@@ -894,6 +922,8 @@ function viewShop(id, opts){
   $("#shopQ").value = kw;
   $("#shopFav").textContent = isFav(id) ? "★" : "☆";
   $("#shopFav").style.color = isFav(id) ? "var(--star)" : "";
+  $("#shopVote").innerHTML = voteWidget(id);
+  ensureVotesLoaded([id]);
 
   if(mem && mem.albums.length){
     $("#shopSub").textContent = `${host(s.u)} · ${mem.albums.length} albums`;
@@ -1265,6 +1295,12 @@ function menuModal(){
       <input id="m-rate" type="number" step="0.001" value="${S.manualRate}">
       <div class="hint">${RATE.ts ? `Nu in gebruik: €${RATE.v.toFixed(3)} van ${esc(RATE.src)} (${new Date(RATE.ts).toLocaleDateString("nl-NL")})`
         : `Nu in gebruik: je eigen koers €${RATE.v.toFixed(3)} — dagkoers ophalen lukte niet`}</div></div>
+    <div class="field"><label>Stem-namespace</label>
+      <input id="m-votens" value="${esc(S.voteNs)}" placeholder="${esc(VOTE_NS_DEFAULT)}">
+      <div class="hint">Stemmen zijn publiek — iedereen met de link ziet en beïnvloedt dezelfde
+        aantallen, via een gratis teller-dienst zonder account. Geen moderatie, geen garanties:
+        loopt de dienst vast, dan valt de app terug op een tweede. Pas dit alleen aan bij een
+        naambotsing met iemand anders die dezelfde gratis dienst gebruikt.</div></div>
     <div class="modal-foot" style="flex-direction:column">
       <button class="btn" id="m-test">◉ Verbindingstest</button>
       <button class="btn" id="m-exp">⤓ Exporteren (JSON back-up)</button>
@@ -1280,6 +1316,9 @@ function menuModal(){
     S.customProxy = $("#m-custom").value.trim();
     const r = parseFloat($("#m-rate").value);
     if(r > 0){ S.manualRate = r; if(!S.rate) RATE = {v:r, ts:0, src:"eigen koers"}; }
+    const oldNs = voteNs();
+    S.voteNs = $("#m-votens").value.trim();
+    if(voteNs() !== oldNs){ voteScores = {}; }   // andere namespace = andere scores, opnieuw ophalen
     save();
   };
   $("#m-close").onclick = () => { persist(); closeModal(); refreshLikes(); toast("Opgeslagen"); };
@@ -1314,6 +1353,7 @@ function testModal(){
     <div id="t-res">${list.map((p,i)=>`<div class="res" id="t-${i}"><span class="dot"></span><span class="nm">${esc(p.n)}</span><span>…</span></div>`).join("")}</div>
     <div class="res" id="t-img"><span class="dot"></span><span class="nm">foto's van Yupoo</span><span>…</span></div>
     <div class="res" id="t-rate"><span class="dot"></span><span class="nm">dagkoers CNY→EUR</span><span>…</span></div>
+    <div class="res" id="t-vote"><span class="dot"></span><span class="nm">stemmen (publiek, gedeeld)</span><span>…</span></div>
     <div class="modal-foot"><button class="btn primary" id="t-close">Klaar</button></div>
   `);
   $("#t-close").onclick = () => { closeModal(); menuModal(); };
@@ -1343,6 +1383,7 @@ function testModal(){
   probe.onerror = () => mark("#t-img", false, "geblokkeerd");
   probe.src = "https://photo.yupoo.com/tiger-official/1a2b3c4d/small.jpg";
   getRate().then(r => { RATE = r; mark("#t-rate", !!r.ts, r.ts ? `€${r.v.toFixed(3)} via ${r.src}` : `eigen koers €${r.v.toFixed(3)}`); });
+  testVoteBackend().then(txt => mark("#t-vote", true, txt)).catch(e => mark("#t-vote", false, e.message));
 }
 
 /* ============================================================
@@ -1362,6 +1403,14 @@ function copy(txt, msg){
 
 /* sellers-lijst */
 document.addEventListener("click", e => {
+  /* stemknop — kan zowel op een sellerkaart als in de shopbalk staan,
+     dus vóór de kaart-specifieke afhandeling checken (die anders al
+     "return"'t voor er iets met de stem gebeurt). */
+  const varr = e.target.closest(".varr");
+  if(varr){
+    castVote(varr.closest(".vote").dataset.id, +varr.dataset.dir);
+    return;
+  }
   const chipEl = e.target.closest(".chip");
   if(chipEl && chipEl.dataset.tag){
     const t = chipEl.dataset.tag;
@@ -1501,6 +1550,148 @@ function toastAction(msg, label, fn){
   if(label) $("#toastBtn").onclick = () => { t.classList.remove("on"); fn(); };
   t.classList.add("on");
   clearTimeout(tT); tT = setTimeout(()=>t.classList.remove("on"), label ? 5000 : 2400);
+}
+
+/* ============================================================
+   13. STEMMEN — een publieke, gedeelde score per seller.
+   Dit gaat niet in S/localStorage: dat is jouw eigen data, dit is
+   van iedereen met de link. Zelfde bron-met-terugval-patroon als
+   PROXIES/proxyList() hierboven (r. 539), tegen een gratis
+   teller-dienst zonder account. Geen moderatie, geen garanties —
+   zie de instellingen voor hoe je van bron wisselt.
+   ============================================================ */
+const VOTE_NS_DEFAULT = "yupoohub-kubilay-sellers-v1";
+const VOTE_BACKENDS = [
+  {n:"countapi", get:(ns,k)=>`https://api.countapi.xyz/get/${ns}/${k}`,
+                 upd:(ns,k,amt)=>`https://api.countapi.xyz/update/${ns}/${k}?amount=${amt}`},
+  {n:"abacus",   get:(ns,k)=>`https://abacus.jasoncameron.dev/get/${ns}/${k}`,
+                 upd:(ns,k,amt)=>`https://abacus.jasoncameron.dev/update/${ns}/${k}?amount=${amt}`}
+];
+const voteNs = () => (S.voteNs && S.voteNs.trim()) || VOTE_NS_DEFAULT;
+function voteBackendOrder(){
+  const start = Math.min(S.voteBackendIdx, VOTE_BACKENDS.length-1);
+  return VOTE_BACKENDS.slice(start).concat(VOTE_BACKENDS.slice(0,start));
+}
+/* Praat met de eerste werkende teller-bron; geeft het nieuwe totaal terug
+   of gooit een fout als geen enkele bron reageert. */
+async function callVoteBackend(kind, id, amount){
+  const ns = voteNs();
+  let lastErr = "";
+  for(const b of voteBackendOrder()){
+    const to = withTimeout(8000);
+    try{
+      const url = kind==="get" ? b.get(ns, id) : b.upd(ns, id, amount);
+      const res = await fetch(url, {signal:to.signal});
+      to.done();
+      if(!res.ok){ lastErr = b.n+": "+res.status; continue; }
+      const data = await res.json();
+      const v = Number(data && data.value);
+      if(!Number.isFinite(v)){ lastErr = b.n+": onbruikbaar antwoord"; continue; }
+      S.voteBackendIdx = VOTE_BACKENDS.indexOf(b); save();
+      return v;
+    }catch(e){
+      to.done();
+      lastErr = b.n+": "+(e.name==="AbortError" ? "te traag" : "geblokkeerd");
+    }
+  }
+  throw new Error(lastErr || "geen stem-bron beschikbaar");
+}
+
+let voteScores = {};      // id -> laatst bekende publieke score
+const voteFailedAt = {};  // id -> wanneer het laatst mislukte (backoff, geen loop op een dode bron)
+const voteBusy = new Set();
+let voteQueue = [], voteRunning = 0, resortT;
+
+function ensureVotesLoaded(ids){
+  const now = Date.now();
+  ids.forEach(id=>{
+    if(voteScores[id]!=null) return;
+    if(voteFailedAt[id] && now-voteFailedAt[id] < 120000) return;
+    if(voteQueue.includes(id)) return;
+    voteQueue.push(id);
+  });
+  pumpVoteQueue();
+}
+function pumpVoteQueue(){
+  while(voteRunning<3 && voteQueue.length){
+    const id = voteQueue.shift();
+    voteRunning++;
+    (async () => {
+      const ck = "vote:"+id;
+      const hit = await Cache.get(ck);
+      if(hit && Date.now()-hit.ts < 6e5) return hit.v;   // 10 min TTL
+      // amount=0 in plaats van /get: dat endpoint faalt op een sleutel die nog
+      // niet bestaat, terwijl update 'm meteen op 0 aanmaakt.
+      const v = await callVoteBackend("update", id, 0);
+      Cache.set(ck, {v, ts:Date.now()});
+      return v;
+    })()
+    .then(v => { voteScores[id] = v; })
+    .catch(() => { voteFailedAt[id] = Date.now(); })
+    .finally(() => {
+      voteRunning--;
+      paintVote(id);
+      if(S.sort==="votes") scheduleResort();
+      pumpVoteQueue();
+    });
+  }
+}
+function scheduleResort(){ clearTimeout(resortT); resortT = setTimeout(render, 300); }
+
+function voteWidget(id){
+  const mine = S.votes[id] || 0;
+  const v = voteScores[id];
+  return `<div class="vote" data-id="${esc(id)}">
+    <button class="varr up ${mine===1?"on":""}" data-act="vote" data-dir="1" title="Omhoog stemmen">▲</button>
+    <span class="vn">${v!=null?v:"–"}</span>
+    <button class="varr down ${mine===-1?"on":""}" data-act="vote" data-dir="-1" title="Omlaag stemmen">▼</button>
+  </div>`;
+}
+function paintVote(id){
+  document.querySelectorAll(`.vote[data-id="${CSS.escape(id)}"]`).forEach(el => {
+    el.querySelector(".vn").textContent = voteScores[id]!=null ? voteScores[id] : "–";
+    const mine = S.votes[id] || 0;
+    el.querySelector(".varr.up").classList.toggle("on", mine===1);
+    el.querySelector(".varr.down").classList.toggle("on", mine===-1);
+  });
+}
+async function castVote(id, dir){
+  if(voteBusy.has(id)) return;
+  const cur = S.votes[id] || 0;
+  const retract = cur === dir;
+  const amount = retract ? -dir : dir - cur;
+  const next = retract ? 0 : dir;
+
+  voteBusy.add(id);
+  const prevMine = cur, prevScore = voteScores[id];
+  S.votes[id] = next; if(next===0) delete S.votes[id];
+  voteScores[id] = (prevScore==null?0:prevScore) + amount;
+  save(); paintVote(id);
+
+  try{
+    const real = await callVoteBackend("update", id, amount);
+    voteScores[id] = real;
+    Cache.set("vote:"+id, {v:real, ts:Date.now()});
+  }catch(e){
+    S.votes[id] = prevMine; if(prevMine===0) delete S.votes[id];
+    voteScores[id] = prevScore;
+    save();
+    toast("Stemmen lukt nu niet — probeer zo nog eens");
+  }finally{
+    voteBusy.delete(id);
+    paintVote(id);
+    if(S.sort==="votes") scheduleResort();
+  }
+}
+
+/* Verbindingstest voor de stem-dienst: schrijft een verse testsleutel en
+   leest 'm meteen terug, zodat schrijven én lezen allebei gecontroleerd zijn. */
+async function testVoteBackend(){
+  const testKey = "verbindingstest-" + Math.random().toString(36).slice(2, 8);
+  const written = await callVoteBackend("update", testKey, 1);
+  const read = await callVoteBackend("get", testKey);
+  if(read !== written) throw new Error("schrijven en teruglezen komen niet overeen");
+  return `werkt · geschreven en teruggelezen (${written})`;
 }
 
 /* start */
