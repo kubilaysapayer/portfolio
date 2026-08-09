@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Yupoo Hub — mijn sellers</title>
 <style>
@@ -22,8 +22,11 @@
   --accent-soft:rgba(242,102,30,.13);
   --accent-txt:#ffd6c1;
   --star:#e9b949;
+  --like:#ff5a7a;
+  --ok:#6fbf73;
   --danger:#ff7a5c;
   --radius:14px;
+  --tabh:56px;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -34,11 +37,13 @@ body{
   -webkit-font-smoothing:antialiased;
   font-size:15px;
   line-height:1.45;
-  padding-bottom:80px;
+  padding-bottom:calc(80px + env(safe-area-inset-bottom));
 }
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
+.view{display:none}
+.view.on{display:block}
 
 /* ---------- header ---------- */
 header{
@@ -69,6 +74,7 @@ header{
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
 .btn.primary:hover{filter:brightness(1.08)}
 .btn.ghost{background:transparent}
+.btn.sm{padding:6px 10px;font-size:13px}
 
 /* ---------- toolbar ---------- */
 .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:12px}
@@ -89,7 +95,7 @@ select.btn{padding:8px 10px;border-radius:10px}
 }
 .searchmode input:focus{border-color:var(--accent)}
 
-/* ---------- grid ---------- */
+/* ---------- seller grid ---------- */
 main{max-width:1280px;margin:0 auto;padding:20px 18px 0}
 .section-title{
   display:flex;align-items:center;gap:9px;margin:6px 0 12px;
@@ -134,6 +140,7 @@ main{max-width:1280px;margin:0 auto;padding:20px 18px 0}
 .icobtn{
   background:var(--bg-soft);border:1px solid var(--line);border-radius:9px;
   width:34px;height:34px;display:grid;place-items:center;font-size:13px;color:var(--muted);transition:.15s;
+  flex-shrink:0;
 }
 .icobtn:hover{color:var(--txt);border-color:var(--line-hi);background:var(--card-hover)}
 .badge-mine{
@@ -142,6 +149,106 @@ main{max-width:1280px;margin:0 auto;padding:20px 18px 0}
 }
 .empty{color:var(--muted);text-align:center;padding:60px 20px}
 .empty b{color:var(--txt);display:block;margin-bottom:6px;font-size:16px}
+
+/* ---------- shopbalk (blijft staan boven de shop) ---------- */
+.shopbar{
+  position:sticky;top:0;z-index:30;background:rgba(19,17,15,.92);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+}
+.shopbar .row{max-width:1280px;margin:0 auto;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.shopbar .who{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
+.shopbar .who .nm{font-weight:800;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shopbar .who .sub2{color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shopsearch{max-width:1280px;margin:0 auto;padding:0 14px 10px;display:flex;gap:8px}
+.shopsearch input{
+  flex:1;padding:9px 12px;border-radius:10px;background:var(--bg-soft);
+  border:1px solid var(--line);outline:none;font-size:14px;
+}
+.shopsearch input:focus{border-color:var(--accent)}
+
+/* ---------- album/product tegels ---------- */
+.tiles{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:12px;max-width:1280px;margin:0 auto;padding:16px 14px 0;
+}
+.tile{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;overflow:hidden;display:flex;flex-direction:column;
+}
+.tile .ph{
+  position:relative;aspect-ratio:1/1;background:var(--bg-soft);display:block;overflow:hidden;
+}
+.tile .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:.25s}
+.tile:hover .ph img{transform:scale(1.04)}
+.tile .ph.broken::after{
+  content:"geen foto";position:absolute;inset:0;display:grid;place-items:center;
+  color:var(--muted);font-size:12px;
+}
+.tile .meta{padding:9px 10px 11px;display:flex;flex-direction:column;gap:5px;flex:1}
+.tile .t{font-size:12.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tile .pr{font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.tile .pr .eur{color:var(--accent-txt)}
+.tile .pr.none{font-weight:500;color:var(--muted)}
+.heart{
+  position:absolute;top:7px;right:7px;width:34px;height:34px;border-radius:50%;
+  border:none;background:rgba(10,8,7,.55);backdrop-filter:blur(4px);
+  font-size:15px;line-height:1;display:grid;place-items:center;color:#fff;opacity:.85;transition:.15s;
+}
+.heart:hover{opacity:1;transform:scale(1.1)}
+.heart.on{background:var(--like);opacity:1}
+.skel{background:linear-gradient(90deg,#1d1916,#262019,#1d1916);background-size:200% 100%;
+  animation:sk 1.1s linear infinite;border-radius:12px;aspect-ratio:1/1}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.statebox{
+  max-width:640px;margin:26px auto;padding:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:12px;text-align:center;color:var(--muted);font-size:14px;
+}
+.statebox b{display:block;color:var(--txt);margin-bottom:6px;font-size:15px}
+.statebox .acts{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.more{display:flex;justify-content:center;padding:22px 14px 30px}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;background:#0a0807;z-index:70;display:none;flex-direction:column}
+.lb.on{display:flex}
+.lb .lbtop{display:flex;align-items:center;gap:10px;padding:10px 14px;color:var(--muted);font-size:13px}
+.lb .stage{flex:1;display:grid;place-items:center;overflow:hidden;touch-action:pan-y}
+.lb img{max-width:100%;max-height:100%;object-fit:contain}
+.lb .nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:64px;
+  background:rgba(255,255,255,.07);border:none;color:#fff;font-size:20px;border-radius:8px}
+.lb .nav.prev{left:8px}
+.lb .nav.next{right:8px}
+
+/* ---------- lijst ---------- */
+.listwrap{max-width:900px;margin:0 auto;padding:18px 14px 0}
+.total{
+  display:flex;align-items:baseline;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:14px 16px;margin-bottom:16px;
+}
+.total .big{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+.total .sm{color:var(--muted);font-size:12.5px}
+.item{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:10px;margin-bottom:10px;align-items:flex-start}
+.item.done{opacity:.5}
+.item img{width:74px;height:74px;object-fit:cover;border-radius:8px;background:var(--bg-soft);flex-shrink:0}
+.item .ib{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.item .it{font-size:13.5px;line-height:1.35}
+.item .idet{color:var(--muted);font-size:12px}
+.item .iacts{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+
+/* ---------- tabbalk ---------- */
+.tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;
+  background:rgba(19,17,15,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.tabbar .in{display:flex}
+.tabbar a{flex:1;height:var(--tabh);display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:2px;color:var(--muted);font-size:11px}
+.tabbar a.on{color:var(--accent-txt)}
+.tabbar a .ic{font-size:18px;line-height:1}
+.tabbar .cnt{position:absolute;transform:translate(14px,-10px);background:var(--like);color:#fff;
+  font-size:10px;font-weight:700;border-radius:999px;padding:0 5px;line-height:15px}
 
 /* ---------- modal ---------- */
 .overlay{
@@ -156,23 +263,31 @@ main{max-width:1280px;margin:0 auto;padding:20px 18px 0}
 .modal h2{margin:0 0 14px;font-size:17px}
 .field{margin-bottom:11px}
 .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
-.field input,.field textarea{
+.field input,.field textarea,.field select{
   width:100%;padding:9px 11px;border-radius:9px;background:var(--bg-soft);
   border:1px solid var(--line);outline:none;
 }
 .field input:focus,.field textarea:focus{border-color:var(--accent)}
 .field textarea{resize:vertical;min-height:56px}
 .row2{display:grid;grid-template-columns:70px 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .modal-foot{display:flex;gap:8px;margin-top:16px}
 .modal-foot .btn{flex:1;text-align:center}
 .hint{color:var(--muted);font-size:11.5px;margin-top:4px}
+.res{font-size:13px;border-top:1px solid var(--line);padding:9px 0;display:flex;
+  align-items:center;gap:9px;font-variant-numeric:tabular-nums}
+.res .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:var(--muted)}
+.res .dot.ok{background:var(--ok)}
+.res .dot.bad{background:var(--danger)}
+.res .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .toast{
-  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+  position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
   background:var(--card);border:1px solid var(--line);border-radius:11px;
   padding:11px 18px;font-size:13.5px;opacity:0;pointer-events:none;transition:.22s;z-index:80;
-  box-shadow:0 10px 30px rgba(0,0,0,.45);
+  box-shadow:0 10px 30px rgba(0,0,0,.45);display:flex;align-items:center;gap:12px;
 }
-.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+.toast button{background:none;border:none;color:var(--accent-txt);font-weight:700;padding:0}
 footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);font-size:12px;
   border-top:1px solid var(--line)}
 .count,.chip .n{font-variant-numeric:tabular-nums}
@@ -181,6 +296,7 @@ footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);fon
   *{transition:none!important;animation:none!important}
   .card:hover{transform:none}
   .star:hover{transform:none}
+  .tile:hover .ph img{transform:none}
 }
 @media(max-width:640px){
   .top{gap:8px;padding:10px 0 8px}
@@ -195,11 +311,18 @@ footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);fon
   #tagbar>*,.sub>*{flex:0 0 auto}
   .searchmode{flex:1 0 230px;min-width:230px}
   .grid{grid-template-columns:1fr}
+  .tiles{grid-template-columns:1fr 1fr;gap:9px;padding:12px 10px 0}
+  .tabbar{display:block}
+  body{padding-bottom:calc(var(--tabh) + 26px + env(safe-area-inset-bottom))}
+  .icobtn{width:40px;height:40px}
+  .open{padding:11px 10px}
 }
 </style>
 </head>
 <body>
 
+<!-- ======================= SELLERS ======================= -->
+<div id="v-sellers" class="view on">
 <header>
   <div class="wrap">
     <div class="top">
@@ -210,7 +333,7 @@ footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);fon
         <span class="kbd">/</span>
       </div>
       <button class="btn primary" id="addBtn">+ Seller</button>
-      <button class="btn" id="menuBtn" title="Back-up &amp; instellingen">⋯</button>
+      <button class="btn" id="menuBtn" title="Instellingen &amp; back-up">⋯</button>
     </div>
 
     <div class="bar" id="tagbar"></div>
@@ -218,7 +341,7 @@ footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);fon
     <div class="sub">
       <div class="searchmode">
         <label for="kw" style="white-space:nowrap">Zoek ín albums:</label>
-        <input id="kw" type="search" placeholder="bijv. jordan 4 — klik dan een seller" autocomplete="off">
+        <input id="kw" type="search" placeholder="bijv. jordan 4 — open dan een seller" autocomplete="off">
       </div>
       <div class="sep"></div>
       <select class="btn" id="sort">
@@ -227,28 +350,98 @@ footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);fon
         <option value="recent">Laatst geopend</option>
         <option value="most">Meest geopend</option>
       </select>
-      <button class="btn" id="openFavs">↗ Open favorieten</button>
+      <a class="btn" href="#/lijst" id="listLink">♥ Mijn lijst</a>
     </div>
   </div>
 </header>
-
 <main id="main"></main>
-
 <footer class="wrap">
-  Alles staat lokaal in je browser (localStorage) — geen account, geen server.
-  Tip: <b>/</b> zoeken · <b>Esc</b> leegmaken · ster = favoriet.
+  Alles staat lokaal in je browser — geen account, geen server.
+  Tip: <b>/</b> zoeken · <b>Esc</b> terug · ster = favoriet · hartje = op je lijst.
   Maak af en toe een back-up via <b>⋯ → Exporteren</b>.
 </footer>
-
-<div class="overlay" id="overlay">
-  <div class="modal" id="modal"></div>
 </div>
+
+<!-- ======================= SHOP ======================= -->
+<div id="v-shop" class="view">
+  <div class="shopbar">
+    <div class="row">
+      <button class="icobtn" id="shopBack" title="Terug">←</button>
+      <div class="who">
+        <span class="emoji" id="shopEmoji"></span>
+        <div style="min-width:0">
+          <div class="nm" id="shopName"></div>
+          <div class="sub2" id="shopSub"></div>
+        </div>
+      </div>
+      <button class="icobtn" id="shopFav" title="Favoriet">☆</button>
+      <button class="icobtn" id="shopExt" title="Open op Yupoo">↗</button>
+      <button class="icobtn" id="shopMore" title="Bron &amp; verversen">⋯</button>
+    </div>
+    <div class="shopsearch">
+      <input id="shopQ" type="search" placeholder="Zoek in deze shop…" autocomplete="off">
+      <button class="btn sm" id="shopGo">Zoek</button>
+    </div>
+  </div>
+  <div id="shopBody"></div>
+</div>
+
+<!-- ======================= ALBUM ======================= -->
+<div id="v-album" class="view">
+  <div class="shopbar">
+    <div class="row">
+      <button class="icobtn" id="albBack" title="Terug">←</button>
+      <div class="who">
+        <div style="min-width:0">
+          <div class="nm" id="albName"></div>
+          <div class="sub2" id="albSub"></div>
+        </div>
+      </div>
+      <button class="icobtn" id="albLike" title="Op mijn lijst">♡</button>
+      <button class="icobtn" id="albExt" title="Open op Yupoo">↗</button>
+    </div>
+  </div>
+  <div id="albBody"></div>
+</div>
+
+<!-- ======================= LIJST ======================= -->
+<div id="v-lijst" class="view">
+  <div class="shopbar">
+    <div class="row">
+      <button class="icobtn" id="listBack" title="Terug">←</button>
+      <div class="who"><div class="nm">Mijn lijst</div></div>
+      <button class="btn sm" id="listExp">Exporteren</button>
+    </div>
+  </div>
+  <div class="listwrap" id="listBody"></div>
+</div>
+
+<nav class="tabbar">
+  <div class="in">
+    <a href="#/" data-tab="sellers"><span class="ic">▦</span>Sellers</a>
+    <a href="#/lijst" data-tab="lijst"><span class="ic">♥</span>Lijst<span class="cnt" id="tabCnt" hidden></span></a>
+  </div>
+</nav>
+
+<div class="lb" id="lb">
+  <div class="lbtop">
+    <button class="icobtn" id="lbClose">✕</button>
+    <span id="lbCount"></span>
+    <span style="flex:1"></span>
+    <button class="btn sm" id="lbOpen">Origineel ↗</button>
+  </div>
+  <div class="stage" id="lbStage"><img id="lbImg" alt=""></div>
+  <button class="nav prev" id="lbPrev">‹</button>
+  <button class="nav next" id="lbNext">›</button>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
 /* ============================================================
-   Seller-lijst (basis). Eigen sellers + wijzigingen komen in
-   localStorage, dus deze basislijst blijft altijd intact.
+   1. DATA — basislijst. Eigen sellers en wijzigingen leven in
+   localStorage, zodat deze lijst altijd intact blijft.
    ============================================================ */
 const BASE = [
  {id:"tiger",n:"TIGER",e:"🐅",u:"https://tiger-official.x.yupoo.com/albums",t:["streetwear","denim"],d:"Snel met nieuwe releases, top kwaliteit. Bekend om z'n JNCO's."},
@@ -308,30 +501,287 @@ const BASE = [
  {id:"lemon",n:"LEMON",e:"🍋",u:"https://lemonvip.x.yupoo.com/",t:["allround"],d:""}
 ];
 
-/* ============================== state ============================== */
+/* ============================================================
+   2. STATE
+   ============================================================ */
 const KEY = "yupoo-hub-v1";
-const blank = {favs:[],hidden:[],custom:[],over:{},stats:{},sort:"default",showHidden:false};
+const blank = {
+  favs:[], hidden:[], custom:[], over:{}, stats:{}, sort:"default", showHidden:false,
+  saved:[],                       // gelikete producten
+  proxy:0, customProxy:"",        // bron voor het ophalen van shoppagina's
+  rate:null, manualRate:0.13      // CNY -> EUR
+};
 let S = load();
 
 function load(){
-  try{
-    const raw = JSON.parse(localStorage.getItem(KEY) || "{}");
-    return Object.assign({}, blank, raw);
-  }catch(e){ return Object.assign({}, blank); }
+  try{ return Object.assign({}, blank, JSON.parse(localStorage.getItem(KEY) || "{}")); }
+  catch(e){ return Object.assign({}, blank); }
 }
-function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast("Opslaan mislukt — is je opslag vol?"); } }
 
-/* Samengestelde lijst: basis + overrides + eigen sellers, min verborgen */
 function sellers(){
   const list = BASE.map(s=>Object.assign({}, s, S.over[s.id]||{}, {mine:false}));
   const mine = S.custom.map(s=>Object.assign({}, s, {mine:true}));
   return list.concat(mine).filter(s => S.showHidden || !S.hidden.includes(s.id));
 }
 const isFav = id => S.favs.includes(id);
+const find  = id => sellers().find(s=>s.id===id);
 const host  = u => { try{ return new URL(u).hostname.replace(/^www\./,""); }catch(e){ return u; } };
-const origin= u => { try{ const x=new URL(u); return x.protocol+"//"+x.host; }catch(e){ return u; } };
+const origin= u => { try{ const x=new URL(u); return "https://"+x.host; }catch(e){ return u; } };
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-/* ============================== filters ============================== */
+/* ============================================================
+   3. NET — bronnen, ophalen, cache
+   Yupoo stuurt geen CORS-headers, dus er gaat een tussenstation
+   tussen. Instelbaar, met meerdere terugvallen.
+   ============================================================ */
+const PROXIES = [
+  {n:"allorigins", f:u=>"https://api.allorigins.win/raw?url="+encodeURIComponent(u)},
+  {n:"codetabs",   f:u=>"https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(u)},
+  {n:"corsproxy",  f:u=>"https://corsproxy.io/?url="+encodeURIComponent(u)},
+  {n:"direct",     f:u=>u}
+];
+function proxyList(){
+  const list = PROXIES.slice();
+  if(S.customProxy.trim()){
+    const tpl = S.customProxy.trim();
+    list.unshift({n:"eigen", f:u => tpl.includes("{url}") ? tpl.replace("{url}", encodeURIComponent(u)) : tpl+encodeURIComponent(u)});
+  }
+  return list;
+}
+function withTimeout(ms){
+  const c = new AbortController();
+  const t = setTimeout(()=>c.abort(), ms);
+  return {signal:c.signal, done:()=>clearTimeout(t), abort:()=>{clearTimeout(t);c.abort();}};
+}
+function looksLikeYupoo(txt){
+  return typeof txt==="string" && txt.length>400 &&
+    (/album|yupoo|photo\.yupoo/i.test(txt));
+}
+/* Haalt HTML op via de eerste bron die werkt; onthoudt welke dat was. */
+let inflight = null;
+async function fetchHtml(url, {fresh=false, ttl=864e5}={}){
+  if(!fresh){
+    const hit = await Cache.get(url);
+    if(hit && Date.now()-hit.ts < ttl) return {html:hit.html, cached:true, via:hit.via};
+  }
+  const list = proxyList();
+  const start = Math.min(S.proxy, list.length-1);
+  const order = list.slice(start).concat(list.slice(0,start));
+  let lastErr = "";
+  for(const p of order){
+    const to = withTimeout(15000);
+    inflight = to;
+    try{
+      const res = await fetch(p.f(url), {signal:to.signal, redirect:"follow"});
+      to.done();
+      if(!res.ok){ lastErr = p.n+": "+res.status; continue; }
+      const html = await res.text();
+      if(!looksLikeYupoo(html)){ lastErr = p.n+": onbruikbaar antwoord"; continue; }
+      S.proxy = list.indexOf(p); save();
+      Cache.set(url, {html, ts:Date.now(), via:p.n});
+      return {html, cached:false, via:p.n};
+    }catch(e){
+      to.done();
+      lastErr = p.n+": "+(e.name==="AbortError" ? "te traag" : "geblokkeerd");
+    }
+  }
+  throw new Error(lastErr || "geen bron beschikbaar");
+}
+
+/* Cache: IndexedDB waar het mag, anders localStorage. Op file:// weigert
+   Chrome IndexedDB, vandaar de terugval. */
+const Cache = (()=>{
+  let dbp = null, broken = false;
+  const LS = "ycache:";
+  function db(){
+    if(broken) return Promise.reject();
+    dbp = dbp || new Promise((res,rej)=>{
+      try{
+        const r = indexedDB.open("yupoo-hub", 1);
+        r.onupgradeneeded = () => r.result.createObjectStore("pages");
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => { broken = true; rej(r.error); };
+      }catch(e){ broken = true; rej(e); }
+    });
+    return dbp;
+  }
+  function tx(mode, fn){
+    return db().then(d => new Promise((res,rej)=>{
+      const r = fn(d.transaction("pages", mode).objectStore("pages"));
+      r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+    }));
+  }
+  async function get(k){
+    try{ return await tx("readonly", st=>st.get(k)); }
+    catch(e){
+      try{ const v = localStorage.getItem(LS+k); return v ? JSON.parse(v) : null; }catch(e2){ return null; }
+    }
+  }
+  async function set(k,v){
+    try{ await tx("readwrite", st=>st.put(v,k)); }
+    catch(e){
+      try{ localStorage.setItem(LS+k, JSON.stringify(v)); }
+      catch(e2){ // opslag vol: gooi de oudste helft weg
+        Object.keys(localStorage).filter(x=>x.startsWith(LS)).slice(0,20).forEach(x=>localStorage.removeItem(x));
+      }
+    }
+  }
+  async function clear(){
+    try{ await tx("readwrite", st=>st.clear()); }catch(e){}
+    Object.keys(localStorage).filter(x=>x.startsWith(LS)).forEach(x=>localStorage.removeItem(x));
+  }
+  return {get,set,clear};
+})();
+
+/* ============================================================
+   4. PARSE — bewust ruime selectors: Yupoo wijzigt z'n opmaak
+   af en toe, en dan is een brede match minder snel stuk.
+   ============================================================ */
+function absUrl(href, base){
+  try{ return new URL(href, base).href; }catch(e){ return href; }
+}
+function imgSrc(img){
+  const cand = ["data-origin-src","data-src","data-original","data-lazy","data-echo","src"];
+  for(const a of cand){
+    let v = img.getAttribute(a);
+    if(v && !/^data:/.test(v)){
+      if(v.startsWith("//")) v = "https:"+v;
+      return v;
+    }
+  }
+  return "";
+}
+function bigImg(u){ return u.replace(/\/(small|thumb|medium)\.(jpe?g|png|webp)(\?.*)?$/i, "/big.$2$3"); }
+
+/* prijs uit een titel vissen: ¥258 / 258元 / 258 rmb / CNY 258 */
+function parsePrice(title){
+  if(!title) return null;
+  const pats = [
+    /[¥￥]\s*([0-9]{2,6})(?:[.,]([0-9]{1,2}))?/,
+    /([0-9]{2,6})(?:[.,]([0-9]{1,2}))?\s*(?:元|rmb|cny)/i,
+    /(?:rmb|cny)\s*([0-9]{2,6})(?:[.,]([0-9]{1,2}))?/i
+  ];
+  for(const p of pats){
+    const m = title.match(p);
+    if(m){
+      const v = parseFloat(m[1] + (m[2] ? "."+m[2] : ""));
+      if(v > 0 && v < 100000) return v;
+    }
+  }
+  return null;
+}
+
+function parseAlbums(html, base){
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const seen = new Set(), out = [];
+  doc.querySelectorAll('a[href*="/albums/"]').forEach(a => {
+    const href = absUrl(a.getAttribute("href") || "", base);
+    const m = href.match(/\/albums\/(\d+)/);
+    if(!m || seen.has(m[1])) return;
+    const box = a.closest("div,li,article,section") || a;
+    const img = a.querySelector("img") || box.querySelector("img");
+    let title = (a.getAttribute("title") || "").trim();
+    if(!title){
+      const t = box.querySelector('[class*="title"],[class*="Title"]');
+      if(t) title = t.textContent.trim();
+    }
+    if(!title && img) title = (img.getAttribute("alt")||"").trim();
+    if(!title) title = (a.textContent||"").trim().slice(0,120);
+    const cover = img ? imgSrc(img) : "";
+    if(!title && !cover) return;         // navigatielink, geen album
+    seen.add(m[1]);
+    out.push({id:m[1], url:href, title:title||("Album "+m[1]), cover, cny:parsePrice(title)});
+  });
+  return out;
+}
+
+function parseAlbum(html, base){
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const seen = new Set(), photos = [];
+  doc.querySelectorAll("img").forEach(img => {
+    const u = imgSrc(img);
+    if(!u || !/photo\.yupoo\.com|\/uploads?\//i.test(u)) return;
+    if(/logo|avatar|head/i.test(u)) return;
+    if(seen.has(u)) return;
+    seen.add(u);
+    photos.push({small:u, big:bigImg(u)});
+  });
+  /* op volgorde van betrouwbaarheid proberen: querySelector met een
+     lijst pakt de eerste in dócumentvolgorde, en dan wint <title> in
+     de head altijd van de echte albumtitel in de body. */
+  let title = "";
+  for(const sel of [".showalbumheader__gallerytitle", ".album__title", "h1", "h2", "title"]){
+    const el = doc.querySelector(sel);
+    const t = el ? el.textContent.trim().replace(/\s+/g," ") : "";
+    if(t && t.toLowerCase() !== "album"){ title = t.slice(0,160); break; }
+  }
+  return {title, photos};
+}
+
+/* Herkent de wachtwoordpagina van Yupoo */
+function isLocked(html){
+  return /密码|password/i.test(html) && !/\/albums\/\d+/.test(html);
+}
+
+/* ============================================================
+   5. KOERS — dagkoers CNY→EUR, met jouw vaste koers als terugval
+   ============================================================ */
+async function getRate(){
+  const r = S.rate;
+  if(r && r.v && Date.now()-r.ts < 864e5) return r;
+  const srcs = [
+    ["https://api.frankfurter.app/latest?from=CNY&to=EUR", d => d && d.rates && d.rates.EUR],
+    ["https://open.er-api.com/v6/latest/CNY", d => d && d.rates && d.rates.EUR]
+  ];
+  for(const [url, pick] of srcs){
+    const to = withTimeout(8000);
+    try{
+      const res = await fetch(url, {signal:to.signal});
+      to.done();
+      const v = pick(await res.json());
+      if(v){ S.rate = {v, ts:Date.now(), src:host(url)}; save(); return S.rate; }
+    }catch(e){ to.done(); }
+  }
+  return {v: S.manualRate, ts: 0, src:"eigen koers"};
+}
+let RATE = {v:S.manualRate, ts:0, src:"eigen koers"};
+const eur = cny => cny==null ? null : Math.round(cny * RATE.v);
+const fmtEur = v => "€" + v.toLocaleString("nl-NL");
+function priceHtml(cny){
+  if(cny==null) return '<div class="pr none">geen prijs vermeld</div>';
+  return `<div class="pr">¥${cny} <span class="eur">≈ ${esc(fmtEur(eur(cny)))}</span></div>`;
+}
+
+/* ============================================================
+   6. ROUTER — hash-routes zodat de terugknop van je telefoon werkt
+   ============================================================ */
+const scrollMem = {};
+let current = "/";
+function go(hash){ location.hash = hash; }
+function route(){
+  const h = location.hash.slice(1) || "/";
+  if(current) scrollMem[current] = window.scrollY;
+  current = h;
+  const parts = h.split("/").filter(Boolean);
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("on"));
+  closeLightbox();
+  if(parts[0] === "shop" && parts[1]){ $("#v-shop").classList.add("on"); viewShop(parts[1]); }
+  else if(parts[0] === "album" && parts[1] && parts[2]){ $("#v-album").classList.add("on"); viewAlbum(parts[1], parts[2]); }
+  else if(parts[0] === "lijst"){ $("#v-lijst").classList.add("on"); viewList(); }
+  else { $("#v-sellers").classList.add("on"); render(); }
+  document.querySelectorAll(".tabbar a").forEach(a=>{
+    a.classList.toggle("on", (a.dataset.tab==="lijst") === (parts[0]==="lijst"));
+  });
+  window.scrollTo(0, scrollMem[h] || 0);
+  updateTabCount();
+}
+window.addEventListener("hashchange", route);
+
+/* ============================================================
+   7. SELLERS-WEERGAVE (de bestaande lijst)
+   ============================================================ */
 let activeTags = new Set();
 let query = "";
 
@@ -340,7 +790,6 @@ function allTags(){
   sellers().forEach(s => (s.t||[]).forEach(t => m[t] = (m[t]||0)+1));
   return Object.keys(m).sort((a,b)=> m[b]-m[a] || a.localeCompare(b)).map(t=>({t,n:m[t]}));
 }
-
 function visible(){
   let out = sellers();
   if(activeTags.has("__fav")) out = out.filter(s=>isFav(s.id));
@@ -353,18 +802,16 @@ function visible(){
   }
   const st = id => S.stats[id] || {c:0,last:0};
   const byName = (a,b)=> a.n.localeCompare(b.n);
-  if(S.sort === "az")     out.sort(byName);
+  if(S.sort === "az") out.sort(byName);
   else if(S.sort==="recent") out.sort((a,b)=> st(b.id).last - st(a.id).last || byName(a,b));
-  else if(S.sort==="most")   out.sort((a,b)=> st(b.id).c - st(a.id).c || byName(a,b));
+  else if(S.sort==="most") out.sort((a,b)=> st(b.id).c - st(a.id).c || byName(a,b));
   else out.sort((a,b)=> (isFav(b.id)-isFav(a.id)) || byName(a,b));
   return out;
 }
-
-/* ============================== render ============================== */
-const $ = s => document.querySelector(s);
-
+function chip(tag,label,n){
+  return `<button class="chip ${activeTags.has(tag)?"on":""}" data-tag="${esc(tag)}">${esc(label)}${n!==undefined?`<span class="n">${n}</span>`:""}</button>`;
+}
 function render(){
-  // tag chips
   const bar = $("#tagbar");
   const favN = sellers().filter(s=>isFav(s.id)).length;
   const mineN = sellers().filter(s=>s.mine).length;
@@ -376,15 +823,10 @@ function render(){
 
   const list = visible();
   $("#count").textContent = `· ${list.length} seller${list.length===1?"":"s"}`;
-
   const favs = list.filter(s=>isFav(s.id));
   const rest = list.filter(s=>!isFav(s.id));
   const m = $("#main");
-
-  if(!list.length){
-    m.innerHTML = `<div class="empty"><b>Niks gevonden</b>Pas je zoekterm of filters aan.</div>`;
-    return;
-  }
+  if(!list.length){ m.innerHTML = `<div class="empty"><b>Niks gevonden</b>Pas je zoekterm of filters aan.</div>`; return; }
   let out = "";
   if(S.sort==="default" && favs.length && rest.length){
     out += `<div class="section-title">Favorieten</div><div class="grid">${favs.map(card).join("")}</div>`;
@@ -394,18 +836,10 @@ function render(){
   }
   m.innerHTML = out;
 }
-
-function chip(tag,label,n){
-  return `<button class="chip ${activeTags.has(tag)?"on":""}" data-tag="${tag}">${esc(label)}${n!==undefined?`<span class="n">${n}</span>`:""}</button>`;
-}
-function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-
 function card(s){
-  const kw = $("#kw").value.trim();
-  const label = kw ? `Zoek “${esc(kw)}”` : "Openen ↗";
   const stat = S.stats[s.id];
   return `
-  <div class="card ${isFav(s.id)?"fav":""}" data-id="${s.id}">
+  <div class="card ${isFav(s.id)?"fav":""}" data-id="${esc(s.id)}">
     ${s.mine?'<span class="badge-mine">eigen</span>':""}
     <div class="chead">
       <div class="emoji">${s.e||"🛍️"}</div>
@@ -419,70 +853,355 @@ function card(s){
     ${(s.t&&s.t.length)?`<div class="tags">${s.t.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>`:""}
     ${s.p?`<button class="pass" data-act="pass" title="Kopieer wachtwoord">🔑 ${esc(s.p)}</button>`:""}
     <div class="cfoot">
-      <button class="open" data-act="open">${label}</button>
+      <button class="open" data-act="browse">Bekijken</button>
+      <button class="icobtn" data-act="ext" title="Op Yupoo openen">↗</button>
       <button class="icobtn" data-act="edit" title="Bewerken">✎</button>
       <button class="icobtn" data-act="del" title="${s.mine?"Verwijderen":"Verbergen"}">✕</button>
     </div>
   </div>`;
 }
-
-/* ============================== acties ============================== */
-function find(id){ return sellers().find(s=>s.id===id); }
-
-function openSeller(s){
-  const kw = $("#kw").value.trim();
-  const url = kw ? `${origin(s.u)}/albums?tab=gallery&keyword=${encodeURIComponent(kw)}` : s.u;
-  const st = S.stats[s.id] || {c:0,last:0};
-  st.c++; st.last = Date.now(); S.stats[s.id] = st; save();
-  window.open(url, "_blank", "noopener");
-  if(S.sort==="recent"||S.sort==="most") render();
+function bump(id){
+  const st = S.stats[id] || {c:0,last:0};
+  st.c++; st.last = Date.now(); S.stats[id] = st; save();
 }
 
-document.addEventListener("click", e => {
-  const chipEl = e.target.closest(".chip");
-  if(chipEl){
-    const t = chipEl.dataset.tag;
-    if(t==="__all") activeTags.clear();
-    else if(t==="__hidden"){ S.showHidden = !S.showHidden; save(); }
-    else activeTags.has(t) ? activeTags.delete(t) : activeTags.add(t);
-    return render();
-  }
-  const btn = e.target.closest("[data-act]");
-  if(!btn) return;
-  const id = btn.closest(".card").dataset.id;
+/* ============================================================
+   8. SHOPWEERGAVE — onze balk, ons grid, Yupoo's spullen
+   ============================================================ */
+let shop = null;         // {seller, kw, page, albums, done, loading}
+const shopMem = {};      // onthoudt geladen pagina's, zodat "terug" uit een album niet opnieuw begint
+const lastKw = {};       // laatst gebruikte zoekterm per shop
+
+function shopUrl(s, page, kw){
+  const base = origin(s.u) + "/albums?tab=gallery";
+  return base + (kw ? "&keyword="+encodeURIComponent(kw) : "") + (page>1 ? "&page="+page : "");
+}
+function viewShop(id, opts){
   const s = find(id);
-  if(!s) return;
-  const act = btn.dataset.act;
+  if(!s){ go("/"); return; }
+  const kw = opts && opts.kw !== undefined ? opts.kw : (lastKw[id] || "");
+  lastKw[id] = kw;
+  const memKey = id + "|" + kw;
+  const mem = (opts && opts.fresh) ? null : shopMem[memKey];
 
-  if(act==="fav"){
-    isFav(id) ? S.favs = S.favs.filter(x=>x!==id) : S.favs.push(id);
-    save(); render();
+  shop = mem
+    ? {seller:s, kw, page:mem.page, albums:mem.albums, done:mem.done, loading:false, memKey}
+    : {seller:s, kw, page:1, albums:[], done:false, loading:false, memKey};
+
+  $("#shopEmoji").textContent = s.e || "🛍️";
+  $("#shopName").textContent = s.n;
+  $("#shopSub").textContent = host(s.u);
+  $("#shopQ").value = kw;
+  $("#shopFav").textContent = isFav(id) ? "★" : "☆";
+  $("#shopFav").style.color = isFav(id) ? "var(--star)" : "";
+
+  if(mem && mem.albums.length){
+    $("#shopSub").textContent = `${host(s.u)} · ${mem.albums.length} albums`;
+    renderShopTiles();
+    return;
   }
-  if(act==="open") openSeller(s);
-  if(act==="pass"){
-    navigator.clipboard.writeText(s.p).then(()=>toast("Wachtwoord gekopieerd: "+s.p));
-  }
-  if(act==="edit") editModal(s);
-  if(act==="del"){
-    if(s.mine){
-      if(confirm(`"${s.n}" verwijderen?`)){
-        S.custom = S.custom.filter(x=>x.id!==id);
-        S.favs = S.favs.filter(x=>x!==id);
-        save(); render(); toast("Verwijderd");
-      }
-    }else{
-      S.hidden.push(id); save(); render();
-      toast(`${s.n} verborgen — terughalen via de "Verborgen" filter`);
+  bump(id);
+  $("#shopBody").innerHTML = `<div class="tiles">${'<div class="skel"></div>'.repeat(8)}</div>`;
+  loadShopPage(true);
+}
+function rememberShop(){
+  if(shop && shop.memKey) shopMem[shop.memKey] = {albums:shop.albums, page:shop.page, done:shop.done};
+}
+async function loadShopPage(first){
+  if(!shop || shop.loading || shop.done) return;
+  shop.loading = true;
+  const s = shop.seller;
+  try{
+    const {html, cached, via} = await fetchHtml(shopUrl(s, shop.page, shop.kw));
+    if(!shop || shop.seller.id !== s.id) return;              // gebruiker is doorgeklikt
+    if(isLocked(html)){ renderShopError("Deze shop staat achter een wachtwoord.", s, true); return; }
+    const albums = parseAlbums(html, origin(s.u));
+    if(!albums.length && first){
+      renderShopError("Geen albums gevonden op deze pagina.", s);
+      return;
     }
+    const known = new Set(shop.albums.map(a=>a.id));
+    shop.albums = shop.albums.concat(albums.filter(a=>!known.has(a.id)));
+    if(!albums.length) shop.done = true;
+    rememberShop();
+    $("#shopSub").textContent = `${host(s.u)} · ${shop.albums.length} albums${cached?" · uit cache":""}`;
+    renderShopTiles(via, cached);
+  }catch(err){
+    if(first) renderShopError(err.message, s);
+    else shop.done = true;
+  }finally{
+    if(shop) shop.loading = false;
   }
-});
+}
+function renderShopTiles(via, cached){
+  const body = $("#shopBody");
+  body.innerHTML =
+    `<div class="tiles">${shop.albums.map(a=>tile(a, shop.seller)).join("")}</div>` +
+    (shop.done
+      ? `<div class="more"><span class="hint">alles geladen${via?` · via ${esc(via)}${cached?" (cache)":""}`:""}</span></div>`
+      : `<div class="more"><button class="btn" id="moreBtn">Meer laden</button></div>`);
+  const mb = $("#moreBtn");
+  if(mb) mb.onclick = () => { shop.page++; mb.textContent = "Laden…"; loadShopPage(false); };
+}
+function renderShopError(msg, s, locked){
+  $("#shopBody").innerHTML = `
+    <div class="statebox">
+      <b>${locked ? "Wachtwoord nodig" : "Kon de shop niet laden"}</b>
+      ${esc(msg)}${locked && s.p ? `<br>Het wachtwoord is <b>${esc(s.p)}</b>.` : ""}
+      <div class="acts">
+        ${locked && s.p ? `<button class="btn" id="errPass">Kopieer wachtwoord</button>` : ""}
+        <button class="btn" id="errSrc">Andere bron proberen</button>
+        <button class="btn primary" id="errExt">Open op Yupoo ↗</button>
+      </div>
+    </div>`;
+  const p = $("#errPass"); if(p) p.onclick = ()=> copy(s.p, "Wachtwoord gekopieerd");
+  $("#errExt").onclick = ()=> window.open(s.u, "_blank", "noopener");
+  $("#errSrc").onclick = ()=>{
+    S.proxy = (S.proxy + 1) % proxyList().length; save();
+    toast("Bron: "+proxyList()[S.proxy].n);
+    viewShop(s.id, {fresh:true});
+  };
+}
+function tile(a, s){
+  const liked = savedId(s.id, a.id);
+  return `
+  <div class="tile" data-alb="${esc(a.id)}">
+    <a class="ph${a.cover?"":" broken"}" href="#/album/${esc(s.id)}/${esc(a.id)}">
+      ${a.cover?`<img src="${esc(a.cover)}" alt="" loading="lazy" referrerpolicy="no-referrer"
+        onerror="this.style.display='none';this.parentNode.classList.add('broken')">`:""}
+    </a>
+    <button class="heart ${liked?"on":""}" data-act="like" data-alb="${esc(a.id)}" title="Op mijn lijst">${liked?"♥":"♡"}</button>
+    <div class="meta">
+      <div class="t">${esc(a.title)}</div>
+      ${priceHtml(a.cny)}
+    </div>
+  </div>`;
+}
 
-/* ============================== modals ============================== */
+/* ============================================================
+   9. ALBUMWEERGAVE + lightbox
+   ============================================================ */
+let album = null;  // {seller, id, url, title, photos}
+
+async function viewAlbum(sid, aid){
+  const s = find(sid);
+  if(!s){ go("/"); return; }
+  const known = (shop && shop.seller.id===sid) ? shop.albums.find(a=>a.id===aid) : null;
+  const url = known ? known.url : origin(s.u) + "/albums/" + aid;
+  album = {seller:s, id:aid, url, title:known?known.title:"Album "+aid, cny:known?known.cny:null, cover:known?known.cover:"", photos:[]};
+  $("#albName").textContent = album.title;
+  $("#albSub").textContent = s.n;
+  syncAlbLike();
+  $("#albBody").innerHTML = `<div class="tiles">${'<div class="skel"></div>'.repeat(6)}</div>`;
+  try{
+    const {html} = await fetchHtml(url, {ttl:6048e5});   // foto's veranderen zelden: 7 dagen
+    if(!album || album.id !== aid) return;
+    const parsed = parseAlbum(html, origin(s.u));
+    album.photos = parsed.photos;
+    if(parsed.title){ album.title = parsed.title; $("#albName").textContent = parsed.title; }
+    if(album.cny == null) album.cny = parsePrice(parsed.title);
+    if(!album.cover && parsed.photos[0]) album.cover = parsed.photos[0].small;
+    renderAlbum();
+  }catch(err){
+    $("#albBody").innerHTML = `
+      <div class="statebox"><b>Kon het album niet laden</b>${esc(err.message)}
+        <div class="acts"><button class="btn primary" id="aErr">Open op Yupoo ↗</button></div></div>`;
+    $("#aErr").onclick = ()=> window.open(url, "_blank", "noopener");
+  }
+}
+function renderAlbum(){
+  const price = priceHtml(album.cny);
+  $("#albBody").innerHTML = `
+    <div class="listwrap" style="padding-bottom:0">
+      <div class="total"><div style="flex:1">
+        <div style="font-size:14px;line-height:1.4">${esc(album.title)}</div>
+        <div style="margin-top:6px">${price}</div>
+      </div>
+      <button class="btn primary" id="albAdd">${savedId(album.seller.id, album.id)?"Op je lijst ✓":"♥ Op mijn lijst"}</button>
+      </div>
+    </div>
+    <div class="tiles">${album.photos.map((p,i)=>`
+      <div class="tile"><a class="ph" href="#" data-ph="${i}">
+        <img src="${esc(p.small)}" alt="" loading="lazy" referrerpolicy="no-referrer"
+             onerror="this.style.display='none';this.parentNode.classList.add('broken')">
+      </a></div>`).join("")}</div>
+    ${album.photos.length?"":'<div class="statebox">Geen foto’s gevonden in dit album.</div>'}`;
+  $("#albAdd").onclick = () => likeAlbum(album.seller, {id:album.id, url:album.url, title:album.title, cover:album.cover, cny:album.cny}, true);
+}
+let lbIndex = 0;
+function openLightbox(i){
+  if(!album || !album.photos.length) return;
+  lbIndex = i; $("#lb").classList.add("on"); paintLb();
+}
+function paintLb(){
+  const p = album.photos[lbIndex];
+  $("#lbImg").src = p.big;
+  $("#lbImg").onerror = () => { $("#lbImg").onerror = null; $("#lbImg").src = p.small; };
+  $("#lbCount").textContent = `${lbIndex+1} / ${album.photos.length}`;
+}
+function closeLightbox(){ $("#lb").classList.remove("on"); $("#lbImg").src = ""; }
+function lbStep(d){
+  if(!album) return;
+  lbIndex = (lbIndex + d + album.photos.length) % album.photos.length;
+  paintLb();
+}
+
+/* ============================================================
+   10. LIKES + LIJST
+   ============================================================ */
+const savedId = (sid, aid) => S.saved.find(x => x.sellerId===sid && x.albumId===aid);
+function likeAlbum(s, a, openDetails){
+  const ex = savedId(s.id, a.id);
+  if(ex && !openDetails){
+    S.saved = S.saved.filter(x => x !== ex); save(); updateTabCount();
+    toast("Van je lijst gehaald");
+    return false;
+  }
+  if(ex && openDetails){ detailModal(ex); return true; }
+  const item = {
+    key: s.id+":"+a.id, sellerId:s.id, albumId:a.id, url:a.url,
+    title:a.title, cover:a.cover||"", cny:a.cny, maat:"", kleur:"", notitie:"",
+    besteld:false, ts:Date.now()
+  };
+  S.saved.push(item); save(); updateTabCount();
+  if(openDetails) detailModal(item);
+  else toastAction("Op je lijst ♥", "Details", () => detailModal(item));
+  return true;
+}
+function syncAlbLike(){
+  if(!album) return;
+  const on = !!savedId(album.seller.id, album.id);
+  $("#albLike").textContent = on ? "♥" : "♡";
+  $("#albLike").style.color = on ? "var(--like)" : "";
+}
+function updateTabCount(){
+  const n = S.saved.length, el = $("#tabCnt");
+  el.hidden = !n; el.textContent = n;
+  const ll = $("#listLink");
+  if(ll) ll.textContent = n ? `♥ Mijn lijst (${n})` : "♥ Mijn lijst";
+}
+function detailModal(item){
+  const s = find(item.sellerId) || {n:item.sellerId};
+  openModal(`
+    <h2>Op mijn lijst</h2>
+    <div class="hint" style="margin:-8px 0 14px">${esc(s.n)} — ${esc(item.title)}</div>
+    <div class="row3">
+      <div class="field"><label>Maat</label><input id="d-maat" value="${esc(item.maat)}" placeholder="L / 42"></div>
+      <div class="field"><label>Kleur</label><input id="d-kleur" value="${esc(item.kleur)}" placeholder="zwart"></div>
+    </div>
+    <div class="field"><label>Prijs in ¥ ${item.cny!=null?"(uit de titel gehaald)":"(seller vermeldt niets)"}</label>
+      <input id="d-prijs" type="number" inputmode="decimal" value="${item.cny!=null?item.cny:""}" placeholder="258">
+      <div class="hint" id="d-eur"></div></div>
+    <div class="field"><label>Notitie</label><textarea id="d-notitie" placeholder="batch, wat je afsprak met de seller…">${esc(item.notitie)}</textarea></div>
+    <div class="modal-foot">
+      <button class="btn ghost" id="d-del">Van lijst</button>
+      <button class="btn primary" id="d-save">Bewaren</button>
+    </div>
+  `);
+  const showEur = () => {
+    const v = parseFloat($("#d-prijs").value);
+    $("#d-eur").textContent = v>0 ? `≈ ${fmtEur(eur(v))} (koers ¥1 = €${RATE.v.toFixed(3)})` : "";
+  };
+  $("#d-prijs").addEventListener("input", showEur); showEur();
+  $("#d-del").onclick = () => {
+    S.saved = S.saved.filter(x => x !== item); save(); closeModal(); updateTabCount();
+    refreshLikes(); toast("Van je lijst gehaald");
+  };
+  $("#d-save").onclick = () => {
+    item.maat = $("#d-maat").value.trim();
+    item.kleur = $("#d-kleur").value.trim();
+    item.notitie = $("#d-notitie").value.trim();
+    const v = parseFloat($("#d-prijs").value);
+    item.cny = v>0 ? v : null;
+    save(); closeModal(); updateTabCount(); refreshLikes(); toast("Bewaard");
+  };
+}
+function refreshLikes(){
+  if(current.startsWith("/lijst")) viewList();
+  else if(current.startsWith("/shop") && shop) renderShopTiles();
+  else if(current.startsWith("/album") && album){ renderAlbum(); syncAlbLike(); }
+}
+function viewList(){
+  const body = $("#listBody");
+  if(!S.saved.length){
+    body.innerHTML = `<div class="empty"><b>Je lijst is leeg</b>Tik het hartje op een product terwijl je door een shop bladert.</div>`;
+    return;
+  }
+  const totalCny = S.saved.filter(i=>!i.besteld).reduce((a,i)=> a + (i.cny||0), 0);
+  const groups = {};
+  S.saved.forEach(i => (groups[i.sellerId] = groups[i.sellerId] || []).push(i));
+  let html = `
+    <div class="total">
+      <div class="big">${esc(fmtEur(eur(totalCny)||0))}</div>
+      <div class="sm">${S.saved.length} item${S.saved.length===1?"":"s"} · ¥${totalCny}
+        · koers ¥1 = €${RATE.v.toFixed(3)}${RATE.ts?"":" (eigen)"}<br>
+        exclusief verzending en agent</div>
+    </div>`;
+  Object.keys(groups).forEach(sid => {
+    const s = find(sid) || {n:sid, e:"🛍️", u:"#"};
+    html += `<div class="section-title">${s.e||""} ${esc(s.n)}</div>`;
+    groups[sid].forEach(i => {
+      html += `
+      <div class="item ${i.besteld?"done":""}" data-key="${esc(i.key)}">
+        ${i.cover?`<img src="${esc(i.cover)}" alt="" referrerpolicy="no-referrer" loading="lazy">`:'<img alt="">'}
+        <div class="ib">
+          <div class="it">${esc(i.title)}</div>
+          <div class="idet">${i.cny!=null?`¥${i.cny} ≈ ${esc(fmtEur(eur(i.cny)))}`:"geen prijs"}${
+            i.maat?` · maat ${esc(i.maat)}`:""}${i.kleur?` · ${esc(i.kleur)}`:""}</div>
+          ${i.notitie?`<div class="idet">${esc(i.notitie)}</div>`:""}
+          <div class="iacts">
+            <button class="btn sm" data-lact="det">Bewerken</button>
+            <button class="btn sm" data-lact="done">${i.besteld?"Niet besteld":"Besteld ✓"}</button>
+            <button class="btn sm" data-lact="open">Openen ↗</button>
+            <button class="btn sm" data-lact="del">Weg</button>
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+  body.innerHTML = html;
+}
+function exportText(){
+  const lines = [`YUPOO LIJST — ${S.saved.length} items — koers ¥1 = €${RATE.v.toFixed(3)}`, ""];
+  const groups = {};
+  S.saved.forEach(i => (groups[i.sellerId] = groups[i.sellerId] || []).push(i));
+  Object.keys(groups).forEach(sid => {
+    const s = find(sid) || {n:sid};
+    lines.push(`== ${s.n} ==`);
+    groups[sid].forEach(i => {
+      const det = [i.maat && "maat "+i.maat, i.kleur, i.notitie].filter(Boolean).join(", ");
+      lines.push(`- ${i.title}${i.cny!=null?` — ¥${i.cny} (≈ ${fmtEur(eur(i.cny))})`:""}${det?` — ${det}`:""}`);
+      lines.push(`  ${i.url}`);
+    });
+    lines.push("");
+  });
+  const tot = S.saved.reduce((a,i)=>a+(i.cny||0),0);
+  lines.push(`TOTAAL ¥${tot} ≈ ${fmtEur(eur(tot))} (excl. verzending)`);
+  return lines.join("\n");
+}
+function exportCsv(){
+  const head = ["seller","titel","prijs_cny","prijs_eur","maat","kleur","notitie","besteld","link"];
+  const q = v => `"${String(v==null?"":v).replace(/"/g,'""')}"`;
+  const rows = S.saved.map(i => {
+    const s = find(i.sellerId) || {n:i.sellerId};
+    return [s.n, i.title, i.cny==null?"":i.cny, i.cny==null?"":eur(i.cny), i.maat, i.kleur, i.notitie, i.besteld?"ja":"nee", i.url].map(q).join(",");
+  });
+  return [head.join(","), ...rows].join("\n");
+}
+function download(name, text, type){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], {type}));
+  a.download = name; a.click(); URL.revokeObjectURL(a.href);
+}
+
+/* ============================================================
+   11. MODALS
+   ============================================================ */
 function openModal(html){
   $("#modal").innerHTML = html;
   $("#overlay").classList.add("on");
   const first = $("#modal input");
-  if(first) setTimeout(()=>first.focus(),40);
+  if(first) setTimeout(()=>first.focus(), 40);
 }
 function closeModal(){ $("#overlay").classList.remove("on"); }
 $("#overlay").addEventListener("click", e => { if(e.target.id==="overlay") closeModal(); });
@@ -520,101 +1239,276 @@ function editModal(s){
       t:v("t").split(",").map(x=>x.trim().toLowerCase()).filter(Boolean),
       p:v("p")||undefined
     };
-    if(isNew){
-      const id = "my-"+Date.now().toString(36);
-      S.custom.push(Object.assign({id}, data));
-    }else if(s.mine){
-      const i = S.custom.findIndex(x=>x.id===s.id);
-      S.custom[i] = Object.assign({id:s.id}, data);
-    }else{
-      S.over[s.id] = data;
-    }
+    if(isNew) S.custom.push(Object.assign({id:"my-"+Date.now().toString(36)}, data));
+    else if(s.mine) S.custom[S.custom.findIndex(x=>x.id===s.id)] = Object.assign({id:s.id}, data);
+    else S.over[s.id] = data;
     save(); closeModal(); render(); toast(isNew?"Toegevoegd":"Opgeslagen");
   };
 }
 
 function menuModal(){
   const n = sellers().length, f = S.favs.length, c = S.custom.length;
+  const list = proxyList();
   openModal(`
-    <h2>Back-up &amp; instellingen</h2>
+    <h2>Instellingen &amp; back-up</h2>
     <div class="hint" style="margin-bottom:14px">
-      ${n} sellers zichtbaar · ${f} favorieten · ${c} zelf toegevoegd · ${S.hidden.length} verborgen
+      ${n} sellers · ${f} favorieten · ${c} zelf toegevoegd · ${S.saved.length} op je lijst
     </div>
+    <div class="field"><label>Bron voor het laden van shops</label>
+      <select id="m-proxy">${list.map((p,i)=>`<option value="${i}" ${i===S.proxy?"selected":""}>${esc(p.n)}</option>`).join("")}</select>
+      <div class="hint">Yupoo staat rechtstreeks ophalen niet toe, dus dit tussenstation haalt de pagina op.
+        Werkt er één niet, kies dan een andere of test ze hieronder.</div></div>
+    <div class="field"><label>Eigen bron (optioneel)</label>
+      <input id="m-custom" value="${esc(S.customProxy)}" placeholder="http://localhost:8080/?url={url}">
+      <div class="hint">Draai je zelf iets, zet hier het adres met <b>{url}</b> erin.</div></div>
+    <div class="field"><label>Koers ¥1 → €</label>
+      <input id="m-rate" type="number" step="0.001" value="${S.manualRate}">
+      <div class="hint">${RATE.ts ? `Nu in gebruik: €${RATE.v.toFixed(3)} van ${esc(RATE.src)} (${new Date(RATE.ts).toLocaleDateString("nl-NL")})`
+        : `Nu in gebruik: je eigen koers €${RATE.v.toFixed(3)} — dagkoers ophalen lukte niet`}</div></div>
     <div class="modal-foot" style="flex-direction:column">
+      <button class="btn" id="m-test">◉ Verbindingstest</button>
       <button class="btn" id="m-exp">⤓ Exporteren (JSON back-up)</button>
       <button class="btn" id="m-imp">⤒ Importeren</button>
-      <button class="btn" id="m-copy">⧉ Alle favorieten als tekst kopiëren</button>
+      <button class="btn" id="m-cache">⌫ Cache legen</button>
       <button class="btn" id="m-reset" style="color:var(--danger)">↺ Alles wissen</button>
-      <button class="btn ghost" id="m-close">Sluiten</button>
+      <button class="btn primary" id="m-close">Klaar</button>
     </div>
     <input type="file" id="m-file" accept="application/json" hidden>
   `);
-  $("#m-close").onclick = closeModal;
-  $("#m-exp").onclick = () => {
-    const blob = new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "yupoo-hub-backup.json";
-    a.click(); URL.revokeObjectURL(a.href);
-    toast("Back-up gedownload");
+  const persist = () => {
+    S.proxy = +$("#m-proxy").value;
+    S.customProxy = $("#m-custom").value.trim();
+    const r = parseFloat($("#m-rate").value);
+    if(r > 0){ S.manualRate = r; if(!S.rate) RATE = {v:r, ts:0, src:"eigen koers"}; }
+    save();
   };
+  $("#m-close").onclick = () => { persist(); closeModal(); refreshLikes(); toast("Opgeslagen"); };
+  $("#m-test").onclick = () => { persist(); testModal(); };
+  $("#m-cache").onclick = async () => { await Cache.clear(); toast("Cache geleegd"); };
+  $("#m-exp").onclick = () => { download("yupoo-hub-backup.json", JSON.stringify(S,null,2), "application/json"); toast("Back-up gedownload"); };
   $("#m-imp").onclick = () => $("#m-file").click();
   $("#m-file").onchange = ev => {
     const file = ev.target.files[0]; if(!file) return;
     const r = new FileReader();
     r.onload = () => {
-      try{
-        S = Object.assign({}, blank, JSON.parse(r.result));
-        save(); closeModal(); render(); toast("Geïmporteerd");
-      }catch(err){ toast("Ongeldig bestand"); }
+      try{ S = Object.assign({}, blank, JSON.parse(r.result)); save(); closeModal(); route(); toast("Geïmporteerd"); }
+      catch(err){ toast("Ongeldig bestand"); }
     };
     r.readAsText(file);
   };
-  $("#m-copy").onclick = () => {
-    const txt = sellers().filter(s=>isFav(s.id)).map(s=>`${s.e} ${s.n} — ${s.u}`).join("\n");
-    navigator.clipboard.writeText(txt).then(()=>toast("Favorieten gekopieerd"));
-  };
   $("#m-reset").onclick = () => {
-    if(confirm("Favorieten, eigen sellers en wijzigingen wissen?")){
-      S = Object.assign({}, blank);
-      save(); closeModal(); render(); toast("Gewist");
+    if(confirm("Favorieten, eigen sellers en je lijst wissen?")){
+      S = Object.assign({}, blank); save(); Cache.clear(); closeModal(); route(); toast("Gewist");
     }
   };
 }
 
-/* ============================== toolbar ============================== */
+/* Verbindingstest: welke bron werkt vanaf dít apparaat, en hoe snel */
+function testModal(){
+  const target = "https://tiger-official.x.yupoo.com/albums?tab=gallery";
+  const list = proxyList();
+  openModal(`
+    <h2>Verbindingstest</h2>
+    <div class="hint" style="margin-bottom:12px">Probeert elke bron op een echte shoppagina.
+      Draai dit ook een keer op je telefoon — die is strenger dan je laptop.</div>
+    <div id="t-res">${list.map((p,i)=>`<div class="res" id="t-${i}"><span class="dot"></span><span class="nm">${esc(p.n)}</span><span>…</span></div>`).join("")}</div>
+    <div class="res" id="t-img"><span class="dot"></span><span class="nm">foto's van Yupoo</span><span>…</span></div>
+    <div class="res" id="t-rate"><span class="dot"></span><span class="nm">dagkoers CNY→EUR</span><span>…</span></div>
+    <div class="modal-foot"><button class="btn primary" id="t-close">Klaar</button></div>
+  `);
+  $("#t-close").onclick = () => { closeModal(); menuModal(); };
+  const mark = (el, ok, txt) => {
+    const row = $(el); if(!row) return;
+    row.querySelector(".dot").className = "dot " + (ok ? "ok" : "bad");
+    row.lastElementChild.textContent = txt;
+  };
+  list.forEach(async (p, i) => {
+    const t0 = performance.now();
+    const to = withTimeout(15000);
+    try{
+      const res = await fetch(p.f(target), {signal:to.signal});
+      to.done();
+      const txt = await res.text();
+      const ms = Math.round(performance.now()-t0);
+      if(!res.ok) return mark("#t-"+i, false, "HTTP "+res.status);
+      if(!looksLikeYupoo(txt)) return mark("#t-"+i, false, "onbruikbaar");
+      const n = parseAlbums(txt, target).length;
+      mark("#t-"+i, n>0, n>0 ? `${n} albums · ${ms} ms` : `geladen maar 0 albums · ${ms} ms`);
+      if(n>0 && S.proxy !== i){ S.proxy = i; save(); }
+    }catch(e){ to.done(); mark("#t-"+i, false, e.name==="AbortError" ? "te traag" : "geblokkeerd"); }
+  });
+  const probe = new Image();
+  probe.referrerPolicy = "no-referrer";
+  probe.onload = () => mark("#t-img", true, "laden");
+  probe.onerror = () => mark("#t-img", false, "geblokkeerd");
+  probe.src = "https://photo.yupoo.com/tiger-official/1a2b3c4d/small.jpg";
+  getRate().then(r => { RATE = r; mark("#t-rate", !!r.ts, r.ts ? `€${r.v.toFixed(3)} via ${r.src}` : `eigen koers €${r.v.toFixed(3)}`); });
+}
+
+/* ============================================================
+   12. WIRE — klikken, toetsen, start
+   ============================================================ */
+function copy(txt, msg){
+  const done = () => toast(msg || "Gekopieerd");
+  if(navigator.clipboard) navigator.clipboard.writeText(txt).then(done, () => fallback());
+  else fallback();
+  function fallback(){
+    const ta = document.createElement("textarea");
+    ta.value = txt; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){ toast("Kopiëren lukt niet"); }
+    ta.remove();
+  }
+}
+
+/* sellers-lijst */
+document.addEventListener("click", e => {
+  const chipEl = e.target.closest(".chip");
+  if(chipEl && chipEl.dataset.tag){
+    const t = chipEl.dataset.tag;
+    if(t==="__all") activeTags.clear();
+    else if(t==="__hidden"){ S.showHidden = !S.showHidden; save(); }
+    else activeTags.has(t) ? activeTags.delete(t) : activeTags.add(t);
+    return render();
+  }
+  const cardBtn = e.target.closest(".card [data-act]");
+  if(cardBtn){
+    const id = cardBtn.closest(".card").dataset.id;
+    const s = find(id); if(!s) return;
+    const act = cardBtn.dataset.act;
+    if(act==="fav"){ isFav(id) ? S.favs = S.favs.filter(x=>x!==id) : S.favs.push(id); save(); render(); }
+    if(act==="browse"){ lastKw[id] = $("#kw").value.trim(); go("/shop/"+id); }
+    if(act==="ext"){ bump(id); window.open(s.u, "_blank", "noopener"); }
+    if(act==="pass") copy(s.p, "Wachtwoord gekopieerd: "+s.p);
+    if(act==="edit") editModal(s);
+    if(act==="del"){
+      if(s.mine){
+        if(confirm(`"${s.n}" verwijderen?`)){
+          S.custom = S.custom.filter(x=>x.id!==id);
+          S.favs = S.favs.filter(x=>x!==id);
+          save(); render(); toast("Verwijderd");
+        }
+      }else{
+        S.hidden.push(id); save(); render();
+        toast(`${s.n} verborgen — terug via de "Verborgen" filter`);
+      }
+    }
+    return;
+  }
+  /* hartje in de shop */
+  const heart = e.target.closest(".heart");
+  if(heart && shop){
+    const a = shop.albums.find(x => x.id === heart.dataset.alb);
+    if(a){ likeAlbum(shop.seller, a, false); renderShopTiles(); }
+    return;
+  }
+  /* foto in album → lightbox */
+  const ph = e.target.closest("[data-ph]");
+  if(ph){ e.preventDefault(); openLightbox(+ph.dataset.ph); return; }
+  /* lijst-acties */
+  const la = e.target.closest("[data-lact]");
+  if(la){
+    const key = la.closest(".item").dataset.key;
+    const item = S.saved.find(x => x.key === key); if(!item) return;
+    const act = la.dataset.lact;
+    if(act==="det") detailModal(item);
+    if(act==="done"){ item.besteld = !item.besteld; save(); viewList(); }
+    if(act==="open") window.open(item.url, "_blank", "noopener");
+    if(act==="del"){ S.saved = S.saved.filter(x => x !== item); save(); updateTabCount(); viewList(); }
+  }
+});
+
+/* shopbalk */
+$("#shopBack").onclick = () => history.length > 1 ? history.back() : go("/");
+$("#albBack").onclick  = () => history.length > 1 ? history.back() : go("/");
+$("#listBack").onclick = () => history.length > 1 ? history.back() : go("/");
+$("#shopExt").onclick  = () => shop && window.open(shopUrl(shop.seller, 1, shop.kw), "_blank", "noopener");
+$("#albExt").onclick   = () => album && window.open(album.url, "_blank", "noopener");
+$("#shopFav").onclick  = () => {
+  if(!shop) return;
+  const id = shop.seller.id;
+  isFav(id) ? S.favs = S.favs.filter(x=>x!==id) : S.favs.push(id);
+  save();
+  $("#shopFav").textContent = isFav(id) ? "★" : "☆";
+  $("#shopFav").style.color = isFav(id) ? "var(--star)" : "";
+};
+$("#shopMore").onclick = menuModal;
+$("#albLike").onclick  = () => {
+  if(!album) return;
+  likeAlbum(album.seller, {id:album.id, url:album.url, title:album.title, cover:album.cover, cny:album.cny}, false);
+  syncAlbLike(); renderAlbum();
+};
+const doShopSearch = () => {
+  if(!shop) return;
+  viewShop(shop.seller.id, {kw:$("#shopQ").value.trim(), fresh:true});
+};
+$("#shopGo").onclick = doShopSearch;
+$("#shopQ").addEventListener("keydown", e => { if(e.key==="Enter") doShopSearch(); });
+
+/* lightbox */
+$("#lbClose").onclick = closeLightbox;
+$("#lbPrev").onclick = () => lbStep(-1);
+$("#lbNext").onclick = () => lbStep(1);
+$("#lbOpen").onclick = () => album && window.open(album.photos[lbIndex].big, "_blank", "noopener");
+let tX = 0;
+$("#lbStage").addEventListener("touchstart", e => tX = e.touches[0].clientX, {passive:true});
+$("#lbStage").addEventListener("touchend", e => {
+  const d = e.changedTouches[0].clientX - tX;
+  if(Math.abs(d) > 45) lbStep(d < 0 ? 1 : -1);
+}, {passive:true});
+
+/* lijst */
+$("#listExp").onclick = () => {
+  if(!S.saved.length) return toast("Je lijst is nog leeg");
+  openModal(`
+    <h2>Lijst exporteren</h2>
+    <div class="field"><textarea id="x-txt" style="min-height:190px" readonly>${esc(exportText())}</textarea></div>
+    <div class="modal-foot">
+      <button class="btn ghost" id="x-close">Sluiten</button>
+      <button class="btn" id="x-csv">CSV</button>
+      <button class="btn primary" id="x-copy">Kopieer</button>
+    </div>`);
+  $("#x-close").onclick = closeModal;
+  $("#x-copy").onclick = () => copy($("#x-txt").value, "Lijst gekopieerd");
+  $("#x-csv").onclick = () => download("yupoo-lijst.csv", exportCsv(), "text/csv");
+};
+
+/* toolbar sellers */
 $("#addBtn").onclick = () => editModal(null);
 $("#menuBtn").onclick = menuModal;
 $("#q").addEventListener("input", e => { query = e.target.value.trim(); render(); });
-$("#kw").addEventListener("input", render);
 $("#sort").addEventListener("change", e => { S.sort = e.target.value; save(); render(); });
-$("#openFavs").onclick = () => {
-  const favs = sellers().filter(s=>isFav(s.id));
-  if(!favs.length) return toast("Nog geen favorieten — klik op een ster");
-  if(favs.length > 6 && !confirm(`${favs.length} tabbladen openen?`)) return;
-  favs.forEach(openSeller);
-  toast(`${favs.length} tabbladen geopend (sta pop-ups toe)`);
-};
 
 document.addEventListener("keydown", e => {
-  if(e.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA"){
-    e.preventDefault(); $("#q").focus();
+  if($("#lb").classList.contains("on")){
+    if(e.key==="Escape") return closeLightbox();
+    if(e.key==="ArrowLeft") return lbStep(-1);
+    if(e.key==="ArrowRight") return lbStep(1);
   }
+  const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+  if(e.key === "/" && !typing){ e.preventDefault(); $("#q").focus(); }
   if(e.key === "Escape"){
     if($("#overlay").classList.contains("on")) return closeModal();
-    if($("#q").value){ $("#q").value=""; query=""; render(); }
+    if($("#q").value){ $("#q").value=""; query=""; return render(); }
+    if(current !== "/") go("/");
   }
 });
 
 let tT;
-function toast(msg){
+function toast(msg){ toastAction(msg); }
+function toastAction(msg, label, fn){
   const t = $("#toast");
-  t.textContent = msg; t.classList.add("on");
-  clearTimeout(tT); tT = setTimeout(()=>t.classList.remove("on"), 2400);
+  t.innerHTML = `<span>${esc(msg)}</span>` + (label ? `<button id="toastBtn">${esc(label)}</button>` : "");
+  if(label) $("#toastBtn").onclick = () => { t.classList.remove("on"); fn(); };
+  t.classList.add("on");
+  clearTimeout(tT); tT = setTimeout(()=>t.classList.remove("on"), label ? 5000 : 2400);
 }
 
+/* start */
 $("#sort").value = S.sort;
-render();
+S.saved.forEach(i => { if(!i.key) i.key = i.sellerId+":"+i.albumId; });
+updateTabCount();
+route();
+getRate().then(r => { RATE = r; if(current!=="/") refreshLikes(); });
 </script>
 </body>
 </html>
