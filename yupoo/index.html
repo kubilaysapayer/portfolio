@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Yupoo Hub — mijn sellers</title>
+<style>
+:root{
+  --bg:#0e1014;
+  --bg-soft:#151922;
+  --card:#181d27;
+  --card-hover:#1e2431;
+  --line:#262d3b;
+  --txt:#e8ecf4;
+  --muted:#8b95a8;
+  --accent:#4c8dff;
+  --accent-soft:rgba(76,141,255,.14);
+  --star:#ffc247;
+  --danger:#ff6b6b;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  font-size:15px;
+  line-height:1.45;
+  padding-bottom:80px;
+}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:30;
+  background:rgba(14,16,20,.86);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.wrap{max-width:1280px;margin:0 auto;padding:0 18px}
+.top{display:flex;align-items:center;gap:14px;padding:14px 0 12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.2px;font-size:17px;white-space:nowrap}
+.brand span.dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.count{color:var(--muted);font-weight:500;font-size:13px}
+.search{flex:1 1 260px;position:relative;min-width:200px}
+.search input{
+  width:100%;padding:11px 38px 11px 38px;border-radius:11px;
+  background:var(--bg-soft);border:1px solid var(--line);outline:none;
+}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search .ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search .kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);
+  border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:11px}
+.btn{
+  background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;
+  padding:10px 13px;white-space:nowrap;transition:.15s;
+}
+.btn:hover{background:var(--card-hover);border-color:#38415a}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent}
+
+/* ---------- toolbar ---------- */
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:12px}
+.chip{
+  border:1px solid var(--line);background:var(--bg-soft);border-radius:999px;
+  padding:6px 12px;font-size:13px;color:var(--muted);transition:.15s;
+}
+.chip:hover{color:var(--txt);border-color:#38415a}
+.chip.on{background:var(--accent-soft);border-color:var(--accent);color:#cfe0ff}
+.chip .n{opacity:.55;margin-left:5px;font-size:11px}
+.sep{width:1px;height:22px;background:var(--line);margin:0 2px}
+select.btn{padding:8px 10px;border-radius:10px}
+.sub{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:14px;color:var(--muted);font-size:13px}
+.searchmode{display:flex;align-items:center;gap:8px;flex:1 1 320px;min-width:240px}
+.searchmode input{
+  flex:1;padding:8px 12px;border-radius:10px;background:var(--bg-soft);
+  border:1px solid var(--line);outline:none;font-size:13px;
+}
+.searchmode input:focus{border-color:var(--accent)}
+
+/* ---------- grid ---------- */
+main{max-width:1280px;margin:0 auto;padding:20px 18px 0}
+.section-title{
+  display:flex;align-items:center;gap:9px;margin:6px 0 12px;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px;margin-bottom:30px}
+.card{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:14px 14px 12px;display:flex;flex-direction:column;gap:9px;
+  transition:.15s;
+}
+.card:hover{background:var(--card-hover);border-color:#37415a;transform:translateY(-2px)}
+.card.fav{border-color:rgba(255,194,71,.35)}
+.chead{display:flex;align-items:flex-start;gap:10px}
+.emoji{font-size:24px;line-height:1.1;flex-shrink:0}
+.cname{font-weight:700;font-size:15px;letter-spacing:.2px;word-break:break-word}
+.chost{color:var(--muted);font-size:11.5px;word-break:break-all;margin-top:1px}
+.star{
+  margin-left:auto;background:none;border:none;font-size:17px;line-height:1;
+  padding:2px 3px;opacity:.32;transition:.15s;flex-shrink:0;
+}
+.star:hover{opacity:.85;transform:scale(1.15)}
+.star.on{opacity:1;filter:drop-shadow(0 0 6px rgba(255,194,71,.5))}
+.note{color:var(--muted);font-size:13px;flex:1}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#9fb0cc;
+  background:#1f2635;border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.pass{
+  display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#ffd88a;
+  background:rgba(255,194,71,.09);border:1px solid rgba(255,194,71,.28);
+  border-radius:7px;padding:3px 8px;align-self:flex-start;
+}
+.pass:hover{background:rgba(255,194,71,.18)}
+.cfoot{display:flex;gap:7px;align-items:center;margin-top:2px}
+.open{
+  flex:1;text-align:center;background:var(--accent-soft);border:1px solid rgba(76,141,255,.4);
+  color:#d3e3ff;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:600;transition:.15s;
+}
+.open:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.icobtn{
+  background:var(--bg-soft);border:1px solid var(--line);border-radius:9px;
+  width:34px;height:34px;display:grid;place-items:center;font-size:13px;color:var(--muted);transition:.15s;
+}
+.icobtn:hover{color:var(--txt);border-color:#38415a;background:var(--card-hover)}
+.badge-mine{
+  position:absolute;top:-7px;right:12px;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--accent);color:#fff;border-radius:5px;padding:1px 6px;font-weight:700;
+}
+.empty{color:var(--muted);text-align:center;padding:60px 20px}
+.empty b{color:var(--txt);display:block;margin-bottom:6px;font-size:16px}
+
+/* ---------- modal ---------- */
+.overlay{
+  position:fixed;inset:0;background:rgba(5,7,10,.72);backdrop-filter:blur(3px);
+  z-index:60;display:none;align-items:center;justify-content:center;padding:18px;
+}
+.overlay.on{display:flex}
+.modal{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  width:100%;max-width:460px;padding:20px;max-height:90vh;overflow:auto;
+}
+.modal h2{margin:0 0 14px;font-size:17px}
+.field{margin-bottom:11px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
+.field input,.field textarea{
+  width:100%;padding:9px 11px;border-radius:9px;background:var(--bg-soft);
+  border:1px solid var(--line);outline:none;
+}
+.field input:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:56px}
+.row2{display:grid;grid-template-columns:70px 1fr;gap:10px}
+.modal-foot{display:flex;gap:8px;margin-top:16px}
+.modal-foot .btn{flex:1;text-align:center}
+.hint{color:var(--muted);font-size:11.5px;margin-top:4px}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  padding:11px 18px;font-size:13.5px;opacity:0;pointer-events:none;transition:.22s;z-index:80;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{max-width:1280px;margin:0 auto;padding:20px 18px 0;color:var(--muted);font-size:12px;
+  border-top:1px solid var(--line)}
+@media(max-width:640px){
+  .top{gap:8px;padding:10px 0 8px}
+  .brand{font-size:16px;flex:1 1 auto;order:1}
+  #addBtn{order:2}
+  #menuBtn{order:3}
+  .search{order:4;flex:1 1 100%}
+  .search .kbd{display:none}
+  /* filters horizontaal scrollen i.p.v. het halve scherm vullen */
+  #tagbar,.sub{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:10px}
+  #tagbar::-webkit-scrollbar,.sub::-webkit-scrollbar{display:none}
+  #tagbar>*,.sub>*{flex:0 0 auto}
+  .searchmode{flex:1 0 230px;min-width:230px}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand"><span class="dot"></span>Yupoo Hub <span class="count" id="count"></span></div>
+      <div class="search">
+        <span class="ico">⌕</span>
+        <input id="q" type="search" placeholder="Zoek seller, categorie of notitie…" autocomplete="off">
+        <span class="kbd">/</span>
+      </div>
+      <button class="btn primary" id="addBtn">+ Seller</button>
+      <button class="btn" id="menuBtn" title="Back-up &amp; instellingen">⋯</button>
+    </div>
+
+    <div class="bar" id="tagbar"></div>
+
+    <div class="sub">
+      <div class="searchmode">
+        <label for="kw" style="white-space:nowrap">Zoek ín albums:</label>
+        <input id="kw" type="search" placeholder="bijv. jordan 4 — klik dan een seller" autocomplete="off">
+      </div>
+      <div class="sep"></div>
+      <select class="btn" id="sort">
+        <option value="default">Sortering: favorieten eerst</option>
+        <option value="az">Naam A–Z</option>
+        <option value="recent">Laatst geopend</option>
+        <option value="most">Meest geopend</option>
+      </select>
+      <button class="btn" id="openFavs">↗ Open favorieten</button>
+    </div>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<footer class="wrap">
+  Alles staat lokaal in je browser (localStorage) — geen account, geen server.
+  Tip: <b>/</b> zoeken · <b>Esc</b> leegmaken · ster = favoriet.
+  Maak af en toe een back-up via <b>⋯ → Exporteren</b>.
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   Seller-lijst (basis). Eigen sellers + wijzigingen komen in
+   localStorage, dus deze basislijst blijft altijd intact.
+   ============================================================ */
+const BASE = [
+ {id:"tiger",n:"TIGER",e:"🐅",u:"https://tiger-official.x.yupoo.com/albums",t:["streetwear","denim"],d:"Snel met nieuwe releases, top kwaliteit. Bekend om z'n JNCO's."},
+ {id:"dragon",n:"DRAGON",e:"🐉",u:"https://noghost.x.yupoo.com/albums",t:["streetwear","allround"],d:"Brede range streetwear — goed voor een complete haul bij één seller."},
+ {id:"yolo",n:"YOLO",e:"🤘",u:"https://yolo66.x.yupoo.com/",t:["sneakers","budget","jassen"],d:"Budget sneaker GOAT. Scherpe prijzen, verkoopt nu ook jassen."},
+ {id:"husky",n:"HUSKY",e:"🐶",u:"https://huskyreps.x.yupoo.com/",t:["streetwear","allround"],d:"Oude bekende die terug is."},
+ {id:"hotdog",n:"HOTDOG",e:"🌭",u:"https://hotdog-official.x.yupoo.com/",t:["streetwear"],d:"Niche streetwear, veel unieke stukken."},
+ {id:"somo",n:"SOMO",e:"👟",u:"https://somakicks.x.yupoo.com/albums",t:["sneakers"],d:"Sneakers op niveau, heeft de meeste batches."},
+ {id:"baymax",n:"BAYMAX",e:"🤖",u:"https://baymaxsocks.x.yupoo.com/albums",t:["accessoires"],d:"Sokken, mutsen, ski, ondergoed enz."},
+ {id:"artie",n:"ARTIE",e:"🎨",u:"https://artiemaster.x.yupoo.com/albums",t:["blanks"],d:"Blanks seller met mooie washed stukken, betaalbaar."},
+ {id:"firekicks",n:"FIRE KICKS",e:"🔥",u:"https://hotkicks.x.yupoo.com/",t:["sneakers"],d:"Goede kwaliteit sneakers, veel voorraad."},
+ {id:"topacney",n:"TOPACNEY",e:"🎙️",u:"https://topacney.x.yupoo.com/",t:["designer","streetwear"],d:"Beste Acne Studios, met afstand."},
+ {id:"icecream",n:"ICE CREAM",e:"🍦",u:"https://1932084671.x.yupoo.com/",t:["sneakers","luxury"],d:"Luxury sneakers (LV, Dior). B22's zijn sterk."},
+ {id:"3125tiger",n:"3125TIGER",e:"🐯",u:"https://3125tiger.x.yupoo.com/categories",t:["allround"],d:"Enorme range producten."},
+ {id:"sharkbreeder",n:"SHARKBREEDER",e:"🦈",u:"https://shark-breeder.x.yupoo.com/categories/4635643",t:["sportswear"],d:"Bekend om Gymshark."},
+ {id:"poshrep",n:"POSHREP",e:"🧥",u:"https://poshrep.x.yupoo.com/",t:["accessoires","jassen"],d:"Sterke petten/hoeden. Wat prijzig maar goede kwaliteit."},
+ {id:"pandavault",n:"PANDAVAULT",e:"🐼",u:"https://pandavault.x.yupoo.com/",t:["sneakers"],d:"Betrouwbare sneaker seller."},
+ {id:"repsbrothers",n:"REPSBROTHERS",e:"👬",u:"https://repsbrothers.x.yupoo.com/",t:["allround"],d:"Een van de grootste namen."},
+ {id:"logan",n:"LOGAN",e:"🧑‍🎄",u:"https://loganhere.x.yupoo.com/albums",t:["budget","allround"],d:"Mid kwaliteit, hele goede prijzen."},
+ {id:"peng",n:"PENG",e:"🐧",u:"https://pengreps.x.yupoo.com/categories",t:["allround"],d:"Nieuwere seller met een goede catalogus."},
+ {id:"rainbow",n:"RAINBOW",e:"🌈",u:"https://rainbowreps.x.yupoo.com/",t:["allround"],d:"Brede range producten."},
+ {id:"colareps",n:"COLAREPS",e:"🥤",u:"https://colareps.x.yupoo.com/",t:["designer","sneakers"],d:"Sterke Balenciaga."},
+ {id:"chaos",n:"CHAOS",e:"🚨",u:"https://chaosmade.x.yupoo.com/albums",t:["streetwear"],d:"Goede verhalen over gehoord."},
+ {id:"jelly",n:"JELLY",e:"🪼",u:"https://zengshuaige.x.yupoo.com/albums",t:["luxury","tassen"],d:"Beste LV's volgens de lijst."},
+ {id:"wwtop",n:"WWTOP",e:"🏆",u:"https://wwfake100.x.yupoo.com/categories",t:["sneakers"],d:"Allround goede sneaker seller."},
+ {id:"madman",n:"MADMAN",e:"🤪",u:"https://3madman.x.yupoo.com/",t:["streetwear"],d:"Sterke Arte, zou 1:1 zijn."},
+ {id:"rocket",n:"ROCKET",e:"🚀",u:"https://rockets-reps.x.yupoo.com/albums",t:["streetwear"],d:"Beste Essentials."},
+ {id:"naisan",n:"NAISAN",e:"🏎️",u:"https://naisan23.x.yupoo.com/albums",t:["allround"],d:"Prijzig, maar hoge kwaliteit."},
+ {id:"zoey",n:"ZOEY",e:"👧",u:"https://zoey818.x.yupoo.com/albums",t:["tassen"],d:"Favoriete tassen seller.",p:"888888"},
+ {id:"angelking47",n:"ANGELKING47",e:"👼",u:"https://angelking47.x.yupoo.com/albums",t:["streetwear","denim"],d:"Go-to voor Denim Tears."},
+ {id:"martin",n:"MARTIN",e:"🧑",u:"https://martinreps.x.yupoo.com/",t:["allround"],d:"Goede allrounder."},
+ {id:"ez",n:"EZ",e:"🗿",u:"https://ezfashion.x.yupoo.com/",t:["jerseys"],d:"Sterke jersey seller."},
+ {id:"goat",n:"GOAT",e:"🐐",u:"https://goat-official.x.yupoo.com/",t:["allround"],d:"Nog steeds solide."},
+ {id:"budgetshoes",n:"BUDGETSHOES",e:"💱",u:"https://budgetshoess.x.yupoo.com/albums",t:["sneakers","budget"],d:"Goedkope schoenen, precies wat de naam zegt."},
+ {id:"uk",n:"UK",e:"🇬🇧",u:"https://unionkingdom.x.yupoo.com/",t:["blanks"],d:"OG blanks seller."},
+ {id:"tophotfashion",n:"TOPHOTFASHION",e:"👕",u:"https://tophotfashion.x.yupoo.com/albums",t:["jassen"],d:"Mooie jassen en puffers."},
+ {id:"pika",n:"PIKA",e:"💡",u:"https://pikachushop.x.yupoo.com/albums",t:["streetwear"],d:"Goede streetwear seller."},
+ {id:"survivalsource",n:"SURVIVALSOURCE",e:"🌅",u:"https://survival-cloth.x.yupoo.com/albums",t:["jassen"],d:"Sterke Stone Island."},
+ {id:"jgk",n:"JGK",e:"👟",u:"https://justgokick.x.yupoo.com/",t:["sneakers"],d:"Heeft de meeste Jordan batches."},
+ {id:"mvt",n:"MVT",e:"👖",u:"https://mvt-shop01.x.yupoo.com/",t:["denim"],d:"Top denim."},
+ {id:"aaaa",n:"AAAA",e:"🎽",u:"https://aaaajersey.x.yupoo.com/",t:["jerseys"],d:"Favoriete jerseys.",p:"aaaajersey"},
+ {id:"thunder",n:"THUNDER",e:"⚡",u:"https://thethunder.x.yupoo.com/categories",t:["jassen","streetwear"],d:"Goede hoodies en puffers."},
+ {id:"repbox",n:"REPBOX",e:"📦",u:"https://repbox.x.yupoo.com/",t:["allround"],d:""},
+ {id:"godmall",n:"GODMALL",e:"🙏",u:"https://godmall.x.yupoo.com/",t:["allround"],d:""},
+ {id:"fashionbroda",n:"FASHIONBRODA",e:"💂‍♀️",u:"https://fashionbroda.x.yupoo.com/",t:["allround"],d:""},
+ {id:"logan2020",n:"LOGAN 2020",e:"🥼",u:"https://logan2020.x.yupoo.com/albums",t:["allround"],d:""},
+ {id:"leo",n:"LEO",e:"🧥",u:"https://000-leo.x.yupoo.com/",t:["jassen"],d:""},
+ {id:"repsmaster",n:"REPSMASTER",e:"🥋",u:"https://repsmaster.x.yupoo.com/",t:["allround"],d:""},
+ {id:"doublekids",n:"DOUBLEKIDS",e:"🚸",u:"https://doublekids.x.yupoo.com/",t:["allround"],d:""},
+ {id:"plane1908",n:"PLANE1908",e:"✈️",u:"https://plane1908.x.yupoo.com/",t:["allround"],d:""},
+ {id:"top8",n:"TOP8",e:"🎱",u:"https://topk8.x.yupoo.com/albums",t:["allround"],d:""},
+ {id:"aya",n:"AYA",e:"👜",u:"https://008-aya.x.yupoo.com/",t:["tassen","jassen"],d:"Goed voor tassen en jassen."},
+ {id:"abc",n:"ABC",e:"🔤",u:"https://abcfactory.x.yupoo.com/",t:["designer"],d:"Sterke designer seller."},
+ {id:"superwang",n:"SUPERWANG",e:"🦸‍♀️",u:"https://superwang02.x.yupoo.com/",t:["allround"],d:""},
+ {id:"ace",n:"ACE",e:"♠️",u:"https://2018-ace.x.yupoo.com/",t:["allround"],d:""},
+ {id:"24hfactory",n:"24HFACTORY",e:"⏰",u:"https://24hfactory.x.yupoo.com/",t:["allround"],d:""},
+ {id:"lemon",n:"LEMON",e:"🍋",u:"https://lemonvip.x.yupoo.com/",t:["allround"],d:""}
+];
+
+/* ============================== state ============================== */
+const KEY = "yupoo-hub-v1";
+const blank = {favs:[],hidden:[],custom:[],over:{},stats:{},sort:"default",showHidden:false};
+let S = load();
+
+function load(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(KEY) || "{}");
+    return Object.assign({}, blank, raw);
+  }catch(e){ return Object.assign({}, blank); }
+}
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+
+/* Samengestelde lijst: basis + overrides + eigen sellers, min verborgen */
+function sellers(){
+  const list = BASE.map(s=>Object.assign({}, s, S.over[s.id]||{}, {mine:false}));
+  const mine = S.custom.map(s=>Object.assign({}, s, {mine:true}));
+  return list.concat(mine).filter(s => S.showHidden || !S.hidden.includes(s.id));
+}
+const isFav = id => S.favs.includes(id);
+const host  = u => { try{ return new URL(u).hostname.replace(/^www\./,""); }catch(e){ return u; } };
+const origin= u => { try{ const x=new URL(u); return x.protocol+"//"+x.host; }catch(e){ return u; } };
+
+/* ============================== filters ============================== */
+let activeTags = new Set();
+let query = "";
+
+function allTags(){
+  const m = {};
+  sellers().forEach(s => (s.t||[]).forEach(t => m[t] = (m[t]||0)+1));
+  return Object.keys(m).sort((a,b)=> m[b]-m[a] || a.localeCompare(b)).map(t=>({t,n:m[t]}));
+}
+
+function visible(){
+  let out = sellers();
+  if(activeTags.has("__fav")) out = out.filter(s=>isFav(s.id));
+  if(activeTags.has("__mine")) out = out.filter(s=>s.mine);
+  const tags = [...activeTags].filter(t=>!t.startsWith("__"));
+  if(tags.length) out = out.filter(s => tags.every(t => (s.t||[]).includes(t)));
+  if(query){
+    const q = query.toLowerCase();
+    out = out.filter(s => (s.n+" "+(s.d||"")+" "+(s.t||[]).join(" ")+" "+s.u).toLowerCase().includes(q));
+  }
+  const st = id => S.stats[id] || {c:0,last:0};
+  const byName = (a,b)=> a.n.localeCompare(b.n);
+  if(S.sort === "az")     out.sort(byName);
+  else if(S.sort==="recent") out.sort((a,b)=> st(b.id).last - st(a.id).last || byName(a,b));
+  else if(S.sort==="most")   out.sort((a,b)=> st(b.id).c - st(a.id).c || byName(a,b));
+  else out.sort((a,b)=> (isFav(b.id)-isFav(a.id)) || byName(a,b));
+  return out;
+}
+
+/* ============================== render ============================== */
+const $ = s => document.querySelector(s);
+
+function render(){
+  // tag chips
+  const bar = $("#tagbar");
+  const favN = sellers().filter(s=>isFav(s.id)).length;
+  const mineN = sellers().filter(s=>s.mine).length;
+  let html = chip("__fav","★ Favorieten",favN) + chip("__mine","Eigen",mineN) + '<div class="sep"></div>';
+  html += `<button class="chip ${activeTags.size?"":"on"}" data-tag="__all">Alles</button>`;
+  allTags().forEach(({t,n}) => html += chip(t, t, n));
+  if(S.hidden.length) html += `<div class="sep"></div><button class="chip ${S.showHidden?"on":""}" data-tag="__hidden">Verborgen (${S.hidden.length})</button>`;
+  bar.innerHTML = html;
+
+  const list = visible();
+  $("#count").textContent = `· ${list.length} seller${list.length===1?"":"s"}`;
+
+  const favs = list.filter(s=>isFav(s.id));
+  const rest = list.filter(s=>!isFav(s.id));
+  const m = $("#main");
+
+  if(!list.length){
+    m.innerHTML = `<div class="empty"><b>Niks gevonden</b>Pas je zoekterm of filters aan.</div>`;
+    return;
+  }
+  let out = "";
+  if(S.sort==="default" && favs.length && rest.length){
+    out += `<div class="section-title">Favorieten</div><div class="grid">${favs.map(card).join("")}</div>`;
+    out += `<div class="section-title">Alle sellers</div><div class="grid">${rest.map(card).join("")}</div>`;
+  }else{
+    out += `<div class="grid">${list.map(card).join("")}</div>`;
+  }
+  m.innerHTML = out;
+}
+
+function chip(tag,label,n){
+  return `<button class="chip ${activeTags.has(tag)?"on":""}" data-tag="${tag}">${esc(label)}${n!==undefined?`<span class="n">${n}</span>`:""}</button>`;
+}
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+function card(s){
+  const kw = $("#kw").value.trim();
+  const label = kw ? `Zoek “${esc(kw)}”` : "Openen ↗";
+  const stat = S.stats[s.id];
+  return `
+  <div class="card ${isFav(s.id)?"fav":""}" data-id="${s.id}">
+    ${s.mine?'<span class="badge-mine">eigen</span>':""}
+    <div class="chead">
+      <div class="emoji">${s.e||"🛍️"}</div>
+      <div style="min-width:0">
+        <div class="cname">${esc(s.n)}</div>
+        <div class="chost">${esc(host(s.u))}${stat&&stat.c?` · ${stat.c}×`:""}</div>
+      </div>
+      <button class="star ${isFav(s.id)?"on":""}" data-act="fav" title="Favoriet">${isFav(s.id)?"★":"☆"}</button>
+    </div>
+    ${s.d?`<div class="note">${esc(s.d)}</div>`:'<div class="note"></div>'}
+    ${(s.t&&s.t.length)?`<div class="tags">${s.t.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>`:""}
+    ${s.p?`<button class="pass" data-act="pass" title="Kopieer wachtwoord">🔑 ${esc(s.p)}</button>`:""}
+    <div class="cfoot">
+      <button class="open" data-act="open">${label}</button>
+      <button class="icobtn" data-act="edit" title="Bewerken">✎</button>
+      <button class="icobtn" data-act="del" title="${s.mine?"Verwijderen":"Verbergen"}">✕</button>
+    </div>
+  </div>`;
+}
+
+/* ============================== acties ============================== */
+function find(id){ return sellers().find(s=>s.id===id); }
+
+function openSeller(s){
+  const kw = $("#kw").value.trim();
+  const url = kw ? `${origin(s.u)}/albums?tab=gallery&keyword=${encodeURIComponent(kw)}` : s.u;
+  const st = S.stats[s.id] || {c:0,last:0};
+  st.c++; st.last = Date.now(); S.stats[s.id] = st; save();
+  window.open(url, "_blank", "noopener");
+  if(S.sort==="recent"||S.sort==="most") render();
+}
+
+document.addEventListener("click", e => {
+  const chipEl = e.target.closest(".chip");
+  if(chipEl){
+    const t = chipEl.dataset.tag;
+    if(t==="__all") activeTags.clear();
+    else if(t==="__hidden"){ S.showHidden = !S.showHidden; save(); }
+    else activeTags.has(t) ? activeTags.delete(t) : activeTags.add(t);
+    return render();
+  }
+  const btn = e.target.closest("[data-act]");
+  if(!btn) return;
+  const id = btn.closest(".card").dataset.id;
+  const s = find(id);
+  if(!s) return;
+  const act = btn.dataset.act;
+
+  if(act==="fav"){
+    isFav(id) ? S.favs = S.favs.filter(x=>x!==id) : S.favs.push(id);
+    save(); render();
+  }
+  if(act==="open") openSeller(s);
+  if(act==="pass"){
+    navigator.clipboard.writeText(s.p).then(()=>toast("Wachtwoord gekopieerd: "+s.p));
+  }
+  if(act==="edit") editModal(s);
+  if(act==="del"){
+    if(s.mine){
+      if(confirm(`"${s.n}" verwijderen?`)){
+        S.custom = S.custom.filter(x=>x.id!==id);
+        S.favs = S.favs.filter(x=>x!==id);
+        save(); render(); toast("Verwijderd");
+      }
+    }else{
+      S.hidden.push(id); save(); render();
+      toast(`${s.n} verborgen — terughalen via de "Verborgen" filter`);
+    }
+  }
+});
+
+/* ============================== modals ============================== */
+function openModal(html){
+  $("#modal").innerHTML = html;
+  $("#overlay").classList.add("on");
+  const first = $("#modal input");
+  if(first) setTimeout(()=>first.focus(),40);
+}
+function closeModal(){ $("#overlay").classList.remove("on"); }
+$("#overlay").addEventListener("click", e => { if(e.target.id==="overlay") closeModal(); });
+
+function editModal(s){
+  const isNew = !s;
+  s = s || {n:"",e:"",u:"",d:"",t:[],p:""};
+  openModal(`
+    <h2>${isNew?"Seller toevoegen":"Seller bewerken"}</h2>
+    <div class="row2">
+      <div class="field"><label>Emoji</label><input id="f-e" value="${esc(s.e||"")}" placeholder="🛍️"></div>
+      <div class="field"><label>Naam</label><input id="f-n" value="${esc(s.n||"")}" placeholder="TIGER"></div>
+    </div>
+    <div class="field"><label>Yupoo link</label><input id="f-u" value="${esc(s.u||"")}" placeholder="https://naam.x.yupoo.com/albums"></div>
+    <div class="field"><label>Notitie</label><textarea id="f-d" placeholder="Waar is 'ie goed in?">${esc(s.d||"")}</textarea></div>
+    <div class="field"><label>Categorieën (komma's)</label><input id="f-t" value="${esc((s.t||[]).join(", "))}" placeholder="sneakers, budget">
+      <div class="hint">bijv. sneakers · streetwear · jassen · tassen · jerseys · denim · blanks · designer · accessoires · budget · allround</div></div>
+    <div class="field"><label>Wachtwoord (optioneel)</label><input id="f-p" value="${esc(s.p||"")}" placeholder="888888"></div>
+    <div class="modal-foot">
+      <button class="btn ghost" id="f-cancel">Annuleren</button>
+      ${(!isNew && !s.mine && S.over[s.id]) ? '<button class="btn" id="f-reset">Herstel</button>' : ""}
+      <button class="btn primary" id="f-save">Opslaan</button>
+    </div>
+  `);
+  $("#f-cancel").onclick = closeModal;
+  const rs = $("#f-reset");
+  if(rs) rs.onclick = () => { delete S.over[s.id]; save(); closeModal(); render(); toast("Terug naar origineel"); };
+  $("#f-save").onclick = () => {
+    const v = k => $("#f-"+k).value.trim();
+    if(!v("n") || !v("u")) return toast("Naam en link zijn verplicht");
+    let url = v("u");
+    if(!/^https?:\/\//i.test(url)) url = "https://"+url;
+    const data = {
+      n:v("n"), e:v("e")||"🛍️", u:url, d:v("d"),
+      t:v("t").split(",").map(x=>x.trim().toLowerCase()).filter(Boolean),
+      p:v("p")||undefined
+    };
+    if(isNew){
+      const id = "my-"+Date.now().toString(36);
+      S.custom.push(Object.assign({id}, data));
+    }else if(s.mine){
+      const i = S.custom.findIndex(x=>x.id===s.id);
+      S.custom[i] = Object.assign({id:s.id}, data);
+    }else{
+      S.over[s.id] = data;
+    }
+    save(); closeModal(); render(); toast(isNew?"Toegevoegd":"Opgeslagen");
+  };
+}
+
+function menuModal(){
+  const n = sellers().length, f = S.favs.length, c = S.custom.length;
+  openModal(`
+    <h2>Back-up &amp; instellingen</h2>
+    <div class="hint" style="margin-bottom:14px">
+      ${n} sellers zichtbaar · ${f} favorieten · ${c} zelf toegevoegd · ${S.hidden.length} verborgen
+    </div>
+    <div class="modal-foot" style="flex-direction:column">
+      <button class="btn" id="m-exp">⤓ Exporteren (JSON back-up)</button>
+      <button class="btn" id="m-imp">⤒ Importeren</button>
+      <button class="btn" id="m-copy">⧉ Alle favorieten als tekst kopiëren</button>
+      <button class="btn" id="m-reset" style="color:var(--danger)">↺ Alles wissen</button>
+      <button class="btn ghost" id="m-close">Sluiten</button>
+    </div>
+    <input type="file" id="m-file" accept="application/json" hidden>
+  `);
+  $("#m-close").onclick = closeModal;
+  $("#m-exp").onclick = () => {
+    const blob = new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "yupoo-hub-backup.json";
+    a.click(); URL.revokeObjectURL(a.href);
+    toast("Back-up gedownload");
+  };
+  $("#m-imp").onclick = () => $("#m-file").click();
+  $("#m-file").onchange = ev => {
+    const file = ev.target.files[0]; if(!file) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try{
+        S = Object.assign({}, blank, JSON.parse(r.result));
+        save(); closeModal(); render(); toast("Geïmporteerd");
+      }catch(err){ toast("Ongeldig bestand"); }
+    };
+    r.readAsText(file);
+  };
+  $("#m-copy").onclick = () => {
+    const txt = sellers().filter(s=>isFav(s.id)).map(s=>`${s.e} ${s.n} — ${s.u}`).join("\n");
+    navigator.clipboard.writeText(txt).then(()=>toast("Favorieten gekopieerd"));
+  };
+  $("#m-reset").onclick = () => {
+    if(confirm("Favorieten, eigen sellers en wijzigingen wissen?")){
+      S = Object.assign({}, blank);
+      save(); closeModal(); render(); toast("Gewist");
+    }
+  };
+}
+
+/* ============================== toolbar ============================== */
+$("#addBtn").onclick = () => editModal(null);
+$("#menuBtn").onclick = menuModal;
+$("#q").addEventListener("input", e => { query = e.target.value.trim(); render(); });
+$("#kw").addEventListener("input", render);
+$("#sort").addEventListener("change", e => { S.sort = e.target.value; save(); render(); });
+$("#openFavs").onclick = () => {
+  const favs = sellers().filter(s=>isFav(s.id));
+  if(!favs.length) return toast("Nog geen favorieten — klik op een ster");
+  if(favs.length > 6 && !confirm(`${favs.length} tabbladen openen?`)) return;
+  favs.forEach(openSeller);
+  toast(`${favs.length} tabbladen geopend (sta pop-ups toe)`);
+};
+
+document.addEventListener("keydown", e => {
+  if(e.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA"){
+    e.preventDefault(); $("#q").focus();
+  }
+  if(e.key === "Escape"){
+    if($("#overlay").classList.contains("on")) return closeModal();
+    if($("#q").value){ $("#q").value=""; query=""; render(); }
+  }
+});
+
+let tT;
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg; t.classList.add("on");
+  clearTimeout(tT); tT = setTimeout(()=>t.classList.remove("on"), 2400);
+}
+
+$("#sort").value = S.sort;
+render();
+</script>
+</body>
+</html>
