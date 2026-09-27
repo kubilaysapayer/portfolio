@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Showreel Intro — Kubilay Sapayer</title>
+<style>
+  @font-face {
+    font-family: "Montserrat";
+    src: url(../fonts/montserrat-latin.woff2) format("woff2");
+    font-weight: 300 900;
+  }
+  :root { --blue: #2E69FF; --ink: #0B0D12; }
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  #stage {
+    position: absolute; left: 0; top: 0; width: 1920px; height: 1080px;
+    overflow: hidden; background: var(--ink); color: #fff;
+    font-family: "Montserrat", sans-serif; transform-origin: 0 0;
+  }
+  #stage * { box-sizing: border-box; }
+  .abs { position: absolute; }
+  .layer { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+
+  /* pixel grid */
+  #grid {
+    background-image: radial-gradient(rgba(255,255,255,.9) 1px, transparent 1.6px);
+    background-size: 48px 48px; background-position: 0 12px; opacity: 0;
+  }
+
+  /* typed line + cursor pixel */
+  #typeline { position: absolute; white-space: pre; font-size: 46px; font-weight: 500; letter-spacing: -.01em; line-height: 1.2; }
+  #typeline span { opacity: 0; }
+  #pixel { position: absolute; background: var(--blue); }
+
+  /* scene: PIXEL PERFECT */
+  .mask { position: absolute; left: 0; width: 1920px; overflow: hidden; text-align: center; }
+  .big { font-size: 300px; font-weight: 900; line-height: 290px; letter-spacing: -.045em; transform-origin: 50% 100%; }
+
+  /* scene: since 2009 */
+  #ylabel { position: absolute; left: 0; top: 300px; width: 1920px; text-align: center; font-size: 30px; font-weight: 700; color: var(--blue); }
+  #digits { position: absolute; left: 0; top: 368px; width: 1920px; text-align: center; font-size: 330px; font-weight: 800; line-height: 1; letter-spacing: 0; height: 1em; overflow: hidden; }
+  .dcol { display: inline-block; width: .7em; height: 1em; overflow: hidden; vertical-align: top; }
+  .dstrip > div { height: 1em; text-align: center; }
+  #ycap { position: absolute; left: 0; top: 742px; width: 1920px; text-align: center; font-size: 26px; font-weight: 600; letter-spacing: .42em; color: rgba(255,255,255,.75); }
+
+  /* scene: disciplines */
+  .panel { clip-path: inset(0 0 0 100%); }
+  .pnum { position: absolute; left: 0; top: 330px; width: 1920px; text-align: center; font-size: 26px; font-weight: 700; letter-spacing: .4em; opacity: .55; }
+  .pword { position: absolute; left: 0; top: 540px; width: 1920px; text-align: center; font-weight: 900; line-height: 1; letter-spacing: -.035em; white-space: nowrap; }
+  .pword span { display: inline-block; }
+
+  .stripe { position: absolute; top: 0; width: 241px; height: 1080px; }
+
+  /* scene: signature */
+  #final { overflow: hidden; }
+  #bgword { position: absolute; left: 0; top: 330px; white-space: nowrap; font-size: 420px; font-weight: 900; letter-spacing: -.04em; line-height: 1; color: rgba(255,255,255,.07); }
+  #ring { position: absolute; border: 3px solid #fff; border-radius: 50%; }
+  #logo { position: absolute; width: 190px; height: 190px; overflow: visible; }
+  #logo path { fill: #fff; fill-opacity: 0; stroke: #fff; stroke-width: .28; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  #name { position: absolute; left: 0; top: 520px; width: 1920px; height: 140px; overflow: hidden; text-align: center; font-size: 118px; font-weight: 800; letter-spacing: .01em; line-height: 140px; }
+  #name span { display: inline-block; }
+  #sub { position: absolute; left: 0; top: 684px; width: 1920px; text-align: center; font-size: 36px; font-weight: 500; color: rgba(255,255,255,.9); }
+  #meta { position: absolute; left: 0; top: 770px; width: 1920px; text-align: center; font-size: 18px; font-weight: 700; letter-spacing: .5em; color: rgba(255,255,255,.7); }
+
+  #flash { background: #fff; opacity: 0; }
+
+  /* HUD */
+  .h { position: absolute; font-size: 15px; font-weight: 600; letter-spacing: .28em; }
+  .tl { left: 88px; top: 72px; } .tr { right: 88px; top: 72px; }
+  .bl { left: 88px; bottom: 70px; } .br { right: 88px; bottom: 70px; font-family: ui-monospace, "DejaVu Sans Mono", monospace; letter-spacing: .12em; }
+  .corner { position: absolute; width: 26px; height: 26px; border-color: #fff; border-style: solid; border-width: 0; }
+  .c1 { left: 48px; top: 48px; border-left-width: 2px; border-top-width: 2px; }
+  .c2 { right: 48px; top: 48px; border-right-width: 2px; border-top-width: 2px; }
+  .c3 { left: 48px; bottom: 48px; border-left-width: 2px; border-bottom-width: 2px; }
+  .c4 { right: 48px; bottom: 48px; border-right-width: 2px; border-bottom-width: 2px; }
+
+  #play {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.55); color: #fff; font: 600 18px/1 "Montserrat", sans-serif;
+    letter-spacing: .3em; cursor: pointer; z-index: 10;
+  }
+  #play b { display: inline-block; padding: 22px 34px; border: 2px solid var(--blue); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="world" class="layer">
+    <div id="grid" class="layer"></div>
+
+    <div id="typeline"></div>
+
+    <div id="sy" class="layer">
+      <div id="ylabel">DESIGNING SINCE</div>
+      <div id="digits"></div>
+      <div id="ycap">17 YEARS OF PIXEL PERFECT WORK</div>
+    </div>
+
+    <div id="panels" class="layer"></div>
+
+    <div id="pixel"></div>
+    <div id="stripes" class="layer"></div>
+
+    <div id="sc" class="layer">
+      <div class="mask" id="l1" style="top:250px;height:290px"><div class="big">PIXEL</div></div>
+      <div class="mask" id="l2" style="top:530px;height:290px"><div class="big">PERFECT</div></div>
+    </div>
+
+    <div id="final" class="layer">
+      <div id="bgword">SHOWREEL 2026 — SHOWREEL 2026 — SHOWREEL 2026</div>
+      <div id="ring"></div>
+      <svg id="logo" viewBox="0 0 32 32"><path pathLength="1" fill-rule="evenodd" d="M0,0 L3,0 L3,32 L0,32 L0,0 Z M5,0 L8,0 L8,32 L5,32 L5,0 Z M16.6862915,16 L32,31.3137085 L32,32 L28.4436508,32 L12.4436508,16 L28.4436508,0 L32,0 L32,0.686291501 L16.6862915,16 Z M20.8776817,0 L25.1203224,0 L12.1213203,12.9990021 L12.1201016,12.9977834 L12.1191254,13 L10,15 L10,0 L13,0 L13,7.87768174 L20.8776817,0 Z M13,32 L10,32 L10,17 L12.1191254,19 L12.1201016,19.0022166 L12.1213203,19.0009979 L25.1203224,32 L20.8776817,32 L13,24.1223183 L13,32 Z M32,8.6862915 L24.6862915,16 L32,23.3137085 L32,27.5563492 L20.4436508,16 L32,4.44365081 L32,8.6862915 Z"/></svg>
+      <div id="name"></div>
+      <div id="sub">User Interface Designer &amp; Illustrator</div>
+      <div id="meta">AMSTERDAM · NL &nbsp;—&nbsp; SHOWREEL 2026</div>
+    </div>
+
+    <div id="flash" class="layer"></div>
+  </div>
+
+  <div id="hud" class="layer">
+    <div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
+    <div class="h tl">KUBILAY SAPAYER</div>
+    <div class="h tr">SHOWREEL — 2026</div>
+    <div class="h bl">PIXEL PERFECT SINCE ’09</div>
+    <div class="h br" id="tc">00:00:00:00</div>
+  </div>
+</div>
+<div id="play"><b>▶ PLAY INTRO</b></div>
+
+<script>
+(() => {
+  const W = 1920, H = 1080, DUR = 17.5, FPS = 60;
+  const BLUE = '#2E69FF';
+  const TEXT = 'It all starts with a single pixel.';
+  const WORDS = [
+    ['ICONS', '#ED5153', '#fff'],
+    ['INTERFACES', '#017EDA', '#fff'],
+    ['ILLUSTRATIONS', '#2A3278', '#fff'],
+    ['APPS', '#EFBD24', '#16171C'],
+    ['LOGOS', '#00BB8E', '#fff'],
+    ['EXPERIENCES', '#FF8C24', '#fff'],
+  ];
+  const STRIPES = ['#ED5153', '#017EDA', '#2A3278', '#EFBD24', '#00BB8E', '#FF8C24', '#E4E5E9', BLUE];
+  const NAME = 'KUBILAY SAPAYER';
+  const IMPACTS = [[5.0, 14], [5.5, 8], [12.0, 16]];
+  const FLASHES = [[5.0, .28], [12.0, .35]];
+
+  // ---------- math ----------
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const prog = (t, a, b) => clamp((t - a) / (b - a));
+  const lerp = (a, b, x) => a + (b - a) * x;
+  const eOutExpo = x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x);
+  const eInExpo = x => x <= 0 ? 0 : Math.pow(2, 10 * x - 10);
+  const eInOutExpo = x => x <= 0 ? 0 : x >= 1 ? 1 : x < .5 ? Math.pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2;
+  const eOutCubic = x => 1 - Math.pow(1 - x, 3);
+  const eInOutCubic = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  const eOutBack = x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+  const rng = seed => () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+  const $ = id => document.getElementById(id);
+
+  // ---------- timing tables (shared by picture and sound) ----------
+  const TYPE_T = [], DEL_T = [];
+  {
+    const r = rng(7); let tt = 0; const raw = [];
+    for (const c of TEXT) { raw.push(tt); tt += 0.03 + r() * 0.035 + (c === ' ' ? 0.03 : 0); }
+    const scale = 1.5 / raw[raw.length - 1];
+    raw.forEach(x => TYPE_T.push(0.55 + x * scale));
+    for (let k = 0; k < TEXT.length; k++) DEL_T.push(2.95 + k * 0.011);
+  }
+  const typedCount = t => TYPE_T.filter(x => x <= t).length - DEL_T.filter(x => x <= t).length;
+
+  const yearValue = t => 2009 + 17 * eInOutCubic(prog(t, 6.5, 7.4));
+  const YEAR_TICKS = [];
+  for (let t = 6.5, last = 2009; t <= 7.41; t += 0.001) {
+    const v = Math.floor(yearValue(t) + 1e-6);
+    if (v !== last) { YEAR_TICKS.push(t); last = v; }
+  }
+
+  // ---------- build DOM ----------
+  const M = {};
+  let chars = [], nameSpans = [], panels = [], stripes = [], dstrips = [], dins = [];
+
+  function init() {
+    const tl = $('typeline');
+    const hl = TEXT.indexOf('pixel');
+    chars = [...TEXT].map((c, i) => {
+      const s = document.createElement('span');
+      s.textContent = c;
+      if (i >= hl && i < hl + 5) { s.style.color = BLUE; s.style.fontWeight = 700; }
+      tl.appendChild(s); return s;
+    });
+    M.tlW = tl.offsetWidth; M.tlH = tl.offsetHeight;
+    M.tlLeft = Math.round(W / 2 - M.tlW / 2); M.tlTop = Math.round(H / 2 - M.tlH / 2);
+    tl.style.left = M.tlLeft + 'px'; tl.style.top = M.tlTop + 'px';
+    M.charRight = chars.map(s => s.offsetLeft + s.offsetWidth);
+
+    // year odometer: 2 0 [tens] [ones]
+    const dg = $('digits');
+    for (let i = 0; i < 4; i++) {
+      const col = document.createElement('div'); col.className = 'dcol';
+      const din = document.createElement('div');
+      const strip = document.createElement('div'); strip.className = 'dstrip';
+      for (let d = 0; d <= 10; d++) { const e = document.createElement('div'); e.textContent = d % 10; strip.appendChild(e); }
+      din.appendChild(strip); col.appendChild(din); dg.appendChild(col);
+      dstrips.push(strip); dins.push(col);
+    }
+
+    const pw = $('panels');
+    panels = WORDS.map(([w, bg, fg], i) => {
+      const p = document.createElement('div'); p.className = 'layer panel';
+      p.style.background = bg; p.style.color = fg;
+      p.innerHTML = `<div class="pnum">0${i + 1} / 0${WORDS.length}</div><div class="pword"><span>${w}</span></div>`;
+      pw.appendChild(p);
+      const word = p.querySelector('.pword'), span = word.firstChild;
+      word.style.fontSize = '100px';
+      const size = Math.min(300, 100 * 1640 / span.offsetWidth);
+      word.style.fontSize = size + 'px';
+      word.style.marginTop = (-size * .5) + 'px';
+      return { el: p, word, num: p.querySelector('.pnum') };
+    });
+
+    const sw = $('stripes');
+    stripes = STRIPES.map((c, i) => {
+      const s = document.createElement('div'); s.className = 'stripe';
+      s.style.left = (i * 240) + 'px'; s.style.background = c;
+      sw.appendChild(s); return s;
+    });
+
+    const nm = $('name');
+    nameSpans = [...NAME].map(c => {
+      const s = document.createElement('span');
+      s.innerHTML = c === ' ' ? '&nbsp;' : c; nm.appendChild(s); return s;
+    });
+  }
+
+  // ---------- picture ----------
+  const show = (el, on) => { el.style.display = on ? '' : 'none'; };
+
+  function cursorPos(t) {
+    const n = Math.max(0, typedCount(t));
+    const x = M.tlLeft + (n > 0 ? M.charRight[n - 1] + 12 : 0) + 9;
+    const y = M.tlTop + M.tlH * 0.5 + 5;
+    return [x, y];
+  }
+
+  function pixelRect(t) {
+    const S = 18;
+    if (t < 0.2) return null;
+    if (t < 3.35) {
+      const off = (t > 2.3 && t < 2.5) || (t > 2.7 && t < 2.9);
+      if (off) return null;
+      const [x, y] = cursorPos(t); return { x, y, w: S, h: S };
+    }
+    if (t < 3.7) {
+      const [x0, y0] = cursorPos(3.34), e = eInOutCubic(prog(t, 3.35, 3.7));
+      return { x: lerp(x0, W / 2, e), y: lerp(y0, H / 2, e), w: S, h: S };
+    }
+    if (t < 4.6) {
+      return { x: W / 2, y: H / 2, w: lerp(S, W + 40, eInOutExpo(prog(t, 3.7, 4.6))), h: lerp(S, 4, eInOutExpo(prog(t, 3.7, 4.3))) };
+    }
+    if (t < 5.0) return { x: W / 2, y: H / 2, w: W + 40, h: lerp(4, H + 40, eInExpo(prog(t, 4.6, 5.0))) };
+    if (t < 6.0) return { x: W / 2, y: H / 2 - (H + 60) * eInExpo(prog(t, 5.85, 6.0)), w: W + 40, h: H + 40 };
+    if (t < 11.6) return null;
+    if (t < 15.5) return { x: W / 2, y: H / 2, w: W + 40, h: H + 40 };
+    if (t < 16.3) {
+      const e = eInOutExpo(prog(t, 15.5, 16.3));
+      return { x: W / 2, y: H / 2, w: lerp(W + 40, S, e), h: lerp(H + 40, S, e) };
+    }
+    if ((t > 16.5 && t < 16.7) || t > 16.95) return null;
+    return { x: W / 2, y: H / 2, w: S, h: S };
+  }
+
+  function render(t) {
+    // camera shake on impacts
+    let amp = 0;
+    for (const [ti, k] of IMPACTS) if (t >= ti) amp += k * Math.exp(-(t - ti) * 22);
+    $('world').style.transform = `translate(${(amp * Math.sin(t * 91)).toFixed(2)}px, ${(amp * Math.cos(t * 73)).toFixed(2)}px)`;
+    let fl = 0;
+    for (const [ti, a] of FLASHES) if (t >= ti) fl += a * Math.exp(-(t - ti) * 14);
+    $('flash').style.opacity = fl.toFixed(3);
+
+    // grid
+    $('grid').style.opacity = (0.07 * prog(t, 0.2, 1.2) * (1 - prog(t, 4.6, 5.0))).toFixed(3);
+
+    // typed text
+    const n = typedCount(t);
+    chars.forEach((s, i) => { s.style.opacity = i < n ? 1 : 0; });
+    show($('typeline'), t < 3.4);
+
+    // pixel
+    const px = $('pixel'), r = pixelRect(t);
+    show(px, !!r);
+    if (r) Object.assign(px.style, { left: (r.x - r.w / 2) + 'px', top: (r.y - r.h / 2) + 'px', width: r.w + 'px', height: r.h + 'px' });
+
+    // PIXEL / PERFECT
+    const sc = $('sc'); show(sc, t >= 5.0 && t < 6.0);
+    sc.style.transform = `translateY(${-(H + 60) * eInExpo(prog(t, 5.85, 6.0))}px)`;
+    [['l1', 5.0], ['l2', 5.5]].forEach(([id, s]) => {
+      const e = eOutExpo(prog(t, s, s + 0.4));
+      $(id).firstChild.style.transform = `translateY(${(1 - e) * 105}%) scale(${1 + (1 - e) * 0.18})`;
+    });
+
+    // SINCE 2009 -> 2026
+    const sy = $('sy'); show(sy, t >= 5.85 && t < 8.35);
+    {
+      const e = eOutExpo(prog(t, 6.0, 6.6));
+      const yl = $('ylabel');
+      yl.style.opacity = e; yl.style.transform = `translateY(${(1 - e) * 30}px)`;
+      yl.style.letterSpacing = lerp(.9, .45, e) + 'em';
+      const v = yearValue(t);
+      const pos = [2, 0, Math.floor(v / 10) % 10 + clamp(v % 10 - 9, 0, 1), v % 10];
+      dstrips.forEach((s, i) => { s.style.transform = `translateY(${-(pos[i] % 10) / 11 * 100}%)`; });
+      dins.forEach((d, i) => {
+        const k = eOutExpo(prog(t, 6.0 + i * 0.06, 6.55 + i * 0.06));
+        d.style.transform = `translateY(${((1 - k) * 1.05).toFixed(4)}em)`;
+      });
+      const done = t >= 7.4;
+      dstrips.forEach((s, i) => { s.style.color = done && i >= 2 ? BLUE : '#fff'; });
+      const c = eOutExpo(prog(t, 7.45, 8.0));
+      const yc = $('ycap'); yc.style.opacity = c; yc.style.transform = `translateY(${(1 - c) * 24}px)`;
+    }
+
+    // disciplines
+    show($('panels'), t >= 8.0 && t < 11.7);
+    panels.forEach((p, i) => {
+      const s = 8.0 + i * 0.5, e = eOutExpo(prog(t, s, s + 0.32));
+      show(p.el, t >= s);
+      p.el.style.clipPath = `inset(0 0 0 ${((1 - e) * 100).toFixed(3)}%)`;
+      p.word.style.transform = `translateX(${(1 - e) * 320 - Math.max(0, t - s) * 70}px) skewX(${(1 - e) * -14}deg)`;
+      p.word.style.letterSpacing = lerp(.12, -.035, e) + 'em';
+      p.num.style.opacity = (.55 * eOutCubic(prog(t, s + .08, s + .35))).toFixed(3);
+    });
+
+    // colour stripes
+    show($('stripes'), t >= 11.0 && t < 12.0);
+    stripes.forEach((s, i) => {
+      const d = eOutExpo(prog(t, 11.0 + i * 0.045, 11.35 + i * 0.045));
+      const dist = Math.abs(i - 3.5), q0 = 11.62 + (dist - .5) * 0.06;
+      const q = eInOutCubic(prog(t, q0, q0 + 0.2));
+      s.style.transform = `translateY(${(d - 1) * 100}%) scaleX(${1 - q})`;
+      s.style.opacity = q > 0.995 ? 0 : 1;
+    });
+
+    // signature
+    const fin = $('final'); show(fin, t >= 11.95 && t < 16.3);
+    {
+      const c = eInOutExpo(prog(t, 15.5, 16.3));
+      fin.style.transform = `scale(${lerp(1, 0.01, c)})`;
+      fin.style.opacity = (1 - prog(t, 15.85, 16.15)).toFixed(3);
+
+      $('bgword').style.transform = `translateX(${-120 - (t - 12) * 90}px)`;
+
+      const rg = eOutCubic(prog(t, 12.0, 12.9)), d = lerp(200, 1600, rg), ring = $('ring');
+      show(ring, t >= 12.0 && t < 12.9);
+      Object.assign(ring.style, { width: d + 'px', height: d + 'px', left: (W / 2 - d / 2) + 'px', top: (H / 2 - d / 2) + 'px', opacity: ((1 - rg) * .55).toFixed(3) });
+
+      const logo = $('logo'), path = logo.firstChild;
+      path.style.strokeDashoffset = 1 - eInOutCubic(prog(t, 12.0, 12.9));
+      path.style.fillOpacity = eOutCubic(prog(t, 12.65, 13.05));
+      const ls = lerp(.82, 1, eOutBack(prog(t, 12.0, 12.55)));
+      const cy = lerp(H / 2, 385, eInOutExpo(prog(t, 13.0, 13.6)));
+      logo.style.left = (W / 2 - 95) + 'px'; logo.style.top = (cy - 95) + 'px';
+      logo.style.transform = `scale(${ls})`;
+
+      nameSpans.forEach((s, i) => {
+        const e = eOutExpo(prog(t, 13.2 + i * 0.03, 13.75 + i * 0.03));
+        s.style.transform = `translateY(${(1 - e) * 110}%)`;
+      });
+      const su = eOutExpo(prog(t, 13.7, 14.3)), sb = $('sub');
+      sb.style.opacity = su; sb.style.transform = `translateY(${(1 - su) * 24}px)`;
+      const me = eOutExpo(prog(t, 14.0, 14.7)), mt = $('meta');
+      mt.style.opacity = me; mt.style.letterSpacing = lerp(1.1, .5, me) + 'em';
+    }
+
+    // HUD
+    const hud = $('hud');
+    hud.style.opacity = (0.5 * prog(t, 0.3, 0.9) * (1 - prog(t, 15.3, 15.6))).toFixed(3);
+    const f = Math.floor(t * FPS + 1e-6), pad = x => String(x).padStart(2, '0');
+    $('tc').textContent = `00:00:${pad(Math.floor(f / FPS))}:${pad(f % FPS)}`;
+  }
+
+  // ---------- sound ----------
+  function makeNoise(ctx, secs, seed) {
+    const r = rng(seed), b = ctx.createBuffer(1, Math.floor(ctx.sampleRate * secs), ctx.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = r() * 2 - 1;
+    return b;
+  }
+  function makeIR(ctx, secs, decay) {
+    const len = Math.floor(ctx.sampleRate * secs), b = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const r = rng(99 + ch), d = b.getChannelData(ch);
+      for (let i = 0; i < len; i++) d[i] = (r() * 2 - 1) * Math.pow(1 - i / len, decay);
+    }
+    return b;
+  }
+
+  function buildAudio(ctx, T0 = 0) {
+    const out = ctx.createGain(); out.gain.value = 0.62;
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -14; comp.ratio.value = 4; comp.attack.value = 0.003; comp.release.value = 0.2;
+    out.connect(comp); comp.connect(ctx.destination);
+    const rev = ctx.createConvolver(); rev.buffer = makeIR(ctx, 2.8, 3.2);
+    const revG = ctx.createGain(); revG.gain.value = 0.4; rev.connect(revG); revG.connect(out);
+    const noise = makeNoise(ctx, 3, 3);
+    const nr = rng(11);
+
+    const env = (g, t, peak, a, d) => {
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(peak, t + a);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + a + d);
+    };
+    const osc = (type, f, t, stop) => { const o = ctx.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t); o.start(t); o.stop(stop); return o; };
+    const nsrc = (t, dur) => { const s = ctx.createBufferSource(); s.buffer = noise; s.start(t, nr() * 1.5, dur); return s; };
+    const chain = (...nodes) => { for (let i = 0; i < nodes.length - 1; i++) nodes[i].connect(nodes[i + 1]); return nodes[nodes.length - 1]; };
+    const send = (node, amt) => { const g = ctx.createGain(); g.gain.value = amt; node.connect(g); g.connect(rev); };
+    const filt = (type, f, q = 0.7) => { const b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; b.Q.value = q; return b; };
+
+    const tick = (t, f, a, d = 0.06) => {
+      t += T0; const g = ctx.createGain(); env(g, t, a, 0.002, d);
+      chain(osc('sine', f, t, t + d + 0.05), g, out); send(g, 0.3);
+    };
+    const key = (t, a, p) => {
+      t += T0; const g = ctx.createGain(); env(g, t, a, 0.001, 0.035);
+      chain(nsrc(t, 0.06), filt('bandpass', 2600 * p, 2.5), g, out);
+      const g2 = ctx.createGain(); env(g2, t, a * 0.35, 0.001, 0.025);
+      chain(osc('triangle', 900 * p, t, t + 0.05), g2, out); send(g, 0.15);
+    };
+    const kick = (t, a = 1) => {
+      t += T0; const o = osc('sine', 165, t, t + 0.6); o.frequency.exponentialRampToValueAtTime(42, t + 0.14);
+      const g = ctx.createGain(); env(g, t, a, 0.002, 0.45); chain(o, g, out);
+      const c = ctx.createGain(); env(c, t, a * 0.25, 0.001, 0.012); chain(nsrc(t, 0.03), filt('highpass', 3000), c, out);
+    };
+    const clap = (t, a = 0.5) => {
+      t += T0; const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      [0, 0.011, 0.022].forEach(o => { g.gain.setValueAtTime(a, t + o); g.gain.exponentialRampToValueAtTime(a * 0.3, t + o + 0.009); });
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+      chain(nsrc(t, 0.3), filt('bandpass', 1500, 0.9), g, out); send(g, 0.5);
+    };
+    const hat = (t, a = 0.1, d = 0.045) => {
+      t += T0; const g = ctx.createGain(); env(g, t, a, 0.001, d);
+      chain(nsrc(t, d + 0.02), filt('highpass', 7500), g, out);
+    };
+    const sub = (t, d, f = 41, a = 0.6) => {
+      t += T0; const g = ctx.createGain(); env(g, t, a, 0.01, d); chain(osc('sine', f, t, t + d + 0.05), g, out);
+    };
+    const impact = (t, a = 1) => {
+      kick(t, a); sub(t, 1.8, 40, 0.55 * a);
+      const tt = t + T0, f = filt('lowpass', 9000, 0.5), g = ctx.createGain();
+      f.frequency.setValueAtTime(9000, tt); f.frequency.exponentialRampToValueAtTime(180, tt + 1.2);
+      env(g, tt, 0.45 * a, 0.004, 1.4); chain(nsrc(tt, 1.5), f, g, out); send(g, 0.9);
+    };
+    const riser = (t0, t1, a = 0.35) => {
+      t0 += T0; t1 += T0;
+      const f = filt('bandpass', 250, 3.5), g = ctx.createGain();
+      f.frequency.setValueAtTime(250, t0); f.frequency.exponentialRampToValueAtTime(7500, t1);
+      g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(a * 0.25, t0 + (t1 - t0) * 0.6); g.gain.linearRampToValueAtTime(a, t1 - 0.01); g.gain.linearRampToValueAtTime(0, t1);
+      const s = ctx.createBufferSource(); s.buffer = noise; s.loop = true; s.start(t0); s.stop(t1 + 0.02);
+      chain(s, f, g, out); send(g, 0.4);
+      const o = osc('sawtooth', 110, t0, t1 + 0.02); o.frequency.exponentialRampToValueAtTime(880, t1);
+      const lp = filt('lowpass', 1800), g2 = ctx.createGain();
+      g2.gain.setValueAtTime(0.0001, t0); g2.gain.exponentialRampToValueAtTime(a * 0.12, t1 - 0.01); g2.gain.linearRampToValueAtTime(0, t1);
+      chain(o, lp, g2, out);
+    };
+    const whoosh = (t, d, from, to, a = 0.2) => {
+      t += T0; const f = filt('bandpass', from, 1.4), g = ctx.createGain();
+      f.frequency.setValueAtTime(from, t); f.frequency.exponentialRampToValueAtTime(to, t + d);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(a, t + d * 0.6); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+      const s = ctx.createBufferSource(); s.buffer = noise; s.loop = true; s.start(t); s.stop(t + d + 0.02);
+      chain(s, f, g, out); send(g, 0.3);
+    };
+    const bass = (t, f, d = 0.22, a = 0.32) => {
+      t += T0; const lp = filt('lowpass', 900, 4), g = ctx.createGain();
+      lp.frequency.setValueAtTime(1100, t); lp.frequency.exponentialRampToValueAtTime(180, t + d);
+      env(g, t, a, 0.004, d); chain(osc('sawtooth', f, t, t + d + 0.05), lp, g, out);
+      const g2 = ctx.createGain(); env(g2, t, a * 0.8, 0.004, d); chain(osc('sine', f, t, t + d + 0.05), g2, out);
+    };
+    const pluck = (t, f, a = 0.08, d = 0.9) => {
+      t += T0; const g = ctx.createGain(); env(g, t, a, 0.002, d);
+      chain(osc('triangle', f, t, t + d + 0.05), g, out);
+      const g2 = ctx.createGain(); env(g2, t, a * 0.4, 0.002, d * 0.5);
+      chain(osc('sine', f * 2, t, t + d + 0.05), g2, out); send(g, 0.8);
+    };
+    const pad = (t0, t1, freqs, a = 0.04, rel = 1) => {
+      t0 += T0; t1 += T0;
+      const lp = filt('lowpass', 350, 0.8), g = ctx.createGain();
+      lp.frequency.setValueAtTime(350, t0); lp.frequency.exponentialRampToValueAtTime(2200, t0 + 2.5);
+      g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(1, t0 + 0.7);
+      g.gain.setValueAtTime(1, t1); g.gain.exponentialRampToValueAtTime(0.0001, t1 + rel);
+      chain(lp, g, out); send(g, 0.6);
+      freqs.forEach(f => [-7, 7].forEach(c => {
+        const o = osc('sawtooth', f, t0, t1 + rel + 0.05); o.detune.value = c;
+        const og = ctx.createGain(); og.gain.value = a; chain(o, og, lp);
+      }));
+    };
+    const drone = (t0, t1, a = 0.12) => {
+      t0 += T0; t1 += T0; const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(a, t0 + 1.8);
+      g.gain.setValueAtTime(a, t1 - 0.4); g.gain.exponentialRampToValueAtTime(0.0001, t1);
+      g.connect(out); send(g, 0.5);
+      [55, 82.41, 110.3].forEach((f, i) => { const og = ctx.createGain(); og.gain.value = [1, .5, .25][i]; chain(osc('sine', f, t0, t1 + 0.05), og, g); });
+    };
+
+    // --- cue sheet (120 bpm) ---
+    drone(0, 5.0, 0.08);
+    tick(0.2, 1760, 0.12, 0.08);
+    const kr = rng(5);
+    TYPE_T.forEach(t => key(t, 0.55, 0.85 + kr() * 0.35));
+    tick(2.5, 1760, 0.05); tick(2.9, 1760, 0.05);
+    DEL_T.forEach(t => key(t, 0.3, 1.35));
+    whoosh(3.35, 0.4, 900, 3500, 0.25);
+    riser(3.7, 5.0, 1.1);
+    impact(5.0, 1.0);
+    kick(5.5, 0.9); clap(5.5, 0.45); sub(5.5, 0.6, 44, 0.35);
+    whoosh(5.8, 0.25, 700, 5000, 0.2);
+    kick(6.0, 0.7); hat(6.0, 0.12, 0.2);
+    YEAR_TICKS.forEach(t => tick(t, 2637, 0.2, 0.03));
+    kick(7.4, 0.5); pluck(7.4, 440, 0.1, 1.2); pluck(7.4, 659.25, 0.07, 1.2);
+
+    const notes = [55, 55, 110, 55, 65.41, 65.41, 49, 49, 55, 55, 82.41, 98];
+    for (let b = 0; b < 6; b++) {
+      const t = 8.0 + b * 0.5;
+      kick(t, 1);
+      whoosh(t - 0.04, 0.22, 1200, 6000, 0.12);
+      if (b % 2 === 1) clap(t, 0.5);
+      hat(t + 0.25, 0.14); hat(t + 0.125, 0.04); hat(t + 0.375, 0.05);
+    }
+    notes.forEach((f, i) => bass(8.0 + i * 0.25, f));
+    for (let i = 0; i < 16; i++) clap(11.0 + i * 0.0625, 0.08 + i * 0.022);
+    kick(11.0, 0.9); kick(11.5, 0.9);
+    riser(11.0, 12.0, 0.9);
+    impact(12.0, 1.1);
+    pad(12.0, 15.6, [110, 164.81, 246.94, 261.63, 329.63], 0.05, 1.1);
+    [880, 1318.5, 987.77, 1046.5, 1318.5, 1760].forEach((f, i) => pluck(13.2 + i * 0.125, f, 0.06, 0.8));
+    kick(14.0, 0.45); kick(15.0, 0.45);
+    for (let i = 0; i < 12; i++) hat(13.0 + i * 0.25, 0.035);
+    whoosh(15.45, 0.85, 6000, 250, 0.3);
+    tick(16.3, 1760, 0.12, 0.08); tick(16.7, 1760, 0.08); tick(16.95, 880, 0.1, 0.25);
+  }
+
+  async function renderAudioWav() {
+    const sr = 48000, len = Math.ceil(sr * DUR);
+    const ctx = new OfflineAudioContext(2, len, sr);
+    buildAudio(ctx, 0);
+    const buf = await ctx.startRendering();
+    const L = buf.getChannelData(0), R = buf.getChannelData(1);
+    const bytes = new Uint8Array(44 + len * 4), dv = new DataView(bytes.buffer);
+    const str = (o, s) => [...s].forEach((c, i) => dv.setUint8(o + i, c.charCodeAt(0)));
+    str(0, 'RIFF'); dv.setUint32(4, 36 + len * 4, true); str(8, 'WAVE'); str(12, 'fmt ');
+    dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 2, true);
+    dv.setUint32(24, sr, true); dv.setUint32(28, sr * 4, true); dv.setUint16(32, 4, true); dv.setUint16(34, 16, true);
+    str(36, 'data'); dv.setUint32(40, len * 4, true);
+    for (let i = 0; i < len; i++) {
+      dv.setInt16(44 + i * 4, clamp(L[i], -1, 1) * 32767, true);
+      dv.setInt16(46 + i * 4, clamp(R[i], -1, 1) * 32767, true);
+    }
+    let bin = '';
+    for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    return btoa(bin);
+  }
+
+  // ---------- boot ----------
+  const params = new URLSearchParams(location.search);
+  const renderMode = params.has('render');
+  window.SHOWREEL = { init, render, renderAudioWav, DUR, FPS };
+
+  function fit() {
+    if (renderMode) return;
+    const s = Math.min(innerWidth / W, innerHeight / H);
+    const st = $('stage');
+    st.style.transform = `scale(${s})`;
+    st.style.left = ((innerWidth - W * s) / 2) + 'px';
+    st.style.top = ((innerHeight - H * s) / 2) + 'px';
+  }
+
+  document.fonts.ready.then(() => {
+    init(); fit(); addEventListener('resize', fit);
+    if (renderMode) { $('play').remove(); render(0); return; }
+    if (params.has('t')) { $('play').remove(); render(parseFloat(params.get('t'))); return; }
+    render(0);
+    $('play').addEventListener('click', function start() {
+      $('play').style.display = 'none';
+      const ctx = new AudioContext(), T0 = ctx.currentTime + 0.15;
+      buildAudio(ctx, T0);
+      const loop = () => {
+        const t = ctx.currentTime - T0;
+        render(clamp(t, 0, DUR));
+        if (t < DUR) requestAnimationFrame(loop);
+        else { ctx.close(); $('play').style.display = 'flex'; }
+      };
+      requestAnimationFrame(loop);
+    });
+  });
+})();
+</script>
+</body>
+</html>
